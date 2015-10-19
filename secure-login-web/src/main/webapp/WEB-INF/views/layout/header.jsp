@@ -1,3 +1,5 @@
-<h1>
-    <a href="${pageContext.request.contextPath}/">secure-login</a>
+<c:if test="${!empty f:h(param.testdescription)}">
+<h1 class="test-description">
+Test : ${f:h(param.testdescription)}
 </h1>
+</c:if>
