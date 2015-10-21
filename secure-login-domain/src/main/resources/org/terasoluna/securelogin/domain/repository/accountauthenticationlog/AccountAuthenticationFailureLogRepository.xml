@@ -33,7 +33,7 @@
         WHERE
             username = #{username}
         ORDER BY authentication_timestamp DESC
-        LIMIT #{nbLog}
+        LIMIT #{numOfLog}
     ]]>
 	</select>
 

@@ -11,7 +11,7 @@ public interface AccountAuthenticationFailureLogRepository {
 	int insert(AccountAuthenticationFailureLog accountAuthenticationLog);
 
 	List<AccountAuthenticationFailureLog> findLatestLogs(
-			@Param("username") String username, @Param("nbLog") long nbLog);
+			@Param("username") String username, @Param("numOfLog") long numOfLog);
 
 	int deleteByUsername(@Param("username") String username);
 }
