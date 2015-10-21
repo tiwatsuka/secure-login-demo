@@ -12,11 +12,11 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Documented
-@Constraint(validatedBy = { ProhibitReuseValidator.class })
+@Constraint(validatedBy = { NotReusedValidator.class })
 @Target({ TYPE, ANNOTATION_TYPE })
 @Retention(RUNTIME)
-public @interface ProhibitReuse {
-	String message() default "{org.terasoluna.securelogin.app.common.validation.ProhibitReuse.message}";
+public @interface NotReused {
+	String message() default "{org.terasoluna.securelogin.app.common.validation.NotReused.message}";
 
 	Class<?>[] groups() default {};
 
@@ -28,7 +28,7 @@ public @interface ProhibitReuse {
 	@Retention(RUNTIME)
 	@Documented
 	public @interface List {
-		ProhibitReuse[] value();
+		NotReused[] value();
 	}
 
 	Class<? extends Payload>[] payload() default {};

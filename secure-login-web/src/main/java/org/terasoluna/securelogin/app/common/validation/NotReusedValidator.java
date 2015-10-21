@@ -24,8 +24,8 @@ import org.terasoluna.securelogin.domain.model.Role;
 import org.terasoluna.securelogin.domain.service.account.AccountSharedService;
 import org.terasoluna.securelogin.domain.service.passwordhistory.PasswordHistorySharedService;
 
-public class ProhibitReuseValidator implements
-		ConstraintValidator<ProhibitReuse, Object> {
+public class NotReusedValidator implements
+		ConstraintValidator<NotReused, Object> {
 
 	@Inject
 	AccountSharedService accountSharedService;
@@ -55,7 +55,7 @@ public class ProhibitReuseValidator implements
 	private String message;
 
 	@Override
-	public void initialize(ProhibitReuse constraintAnnotation) {
+	public void initialize(NotReused constraintAnnotation) {
 		usernameField = constraintAnnotation.idField();
 		newPasswordField = constraintAnnotation.newPasswordField();
 		message = constraintAnnotation.message();
