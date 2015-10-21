@@ -21,10 +21,7 @@
 	</typeAliases>
 
 	<typeHandlers>
-
-		<package
-			name="org.terasoluna.securelogin.infra.mybatis.typehandler.DateTimeTypeHandler" />
-
+		<package name="org.terasoluna.securelogin.infra.mybatis.typehandler" />
 	</typeHandlers>
 
 </configuration>

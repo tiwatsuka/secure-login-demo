@@ -14,12 +14,6 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation"
 			value="classpath:/META-INF/mybatis/mybatis-config.xml" />
-		<property name="typeHandlers">
-			<list>
-				<bean
-					class="org.terasoluna.securelogin.infra.mybatis.typehandler.DateTimeTypeHandler" />
-			</list>
-		</property>
 	</bean>
 
 	<!-- define GreenMailBean -->
