@@ -8,10 +8,10 @@ import org.terasoluna.securelogin.app.common.validation.ConfirmOldPassword;
 import lombok.Data;
 
 @Data
-@Confirm(field = "newPassword")
-@StrongPassword(idField = "username", newPasswordField = "newPassword")
-@NotReused(idField = "username", newPasswordField = "newPassword")
-@ConfirmOldPassword(idField = "username", oldPasswordField = "oldPassword")
+@Confirm(propertyName = "newPassword")
+@StrongPassword(idPropertyName = "username", newPasswordPropertyName = "newPassword")
+@NotReused(idPropertyName = "username", newPasswordPropertyName = "newPassword")
+@ConfirmOldPassword(idPropertyName = "username", oldPasswordPropertyName = "oldPassword")
 public class PasswordChangeForm {
 
 	private String username;

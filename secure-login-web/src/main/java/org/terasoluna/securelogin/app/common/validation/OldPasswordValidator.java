@@ -20,25 +20,25 @@ public class OldPasswordValidator implements
 	@Inject
 	PasswordEncoder passwordEncoder;
 
-	private String usernameField;
+	private String usernamePropertyName;
 
-	private String oldPasswordField;
+	private String oldPasswordPropertyName;
 
 	private String message;
 
 	@Override
 	public void initialize(ConfirmOldPassword constraintAnnotation) {
-		usernameField = constraintAnnotation.idField();
-		oldPasswordField = constraintAnnotation.oldPasswordField();
+		usernamePropertyName = constraintAnnotation.idPropertyName();
+		oldPasswordPropertyName = constraintAnnotation.oldPasswordPropertyName();
 		message = constraintAnnotation.message();
 	}
 
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
 		BeanWrapper beanWrapper = new BeanWrapperImpl(value);
-		String username = (String) beanWrapper.getPropertyValue(usernameField);
+		String username = (String) beanWrapper.getPropertyValue(usernamePropertyName);
 		String oldPassword = (String) beanWrapper
-				.getPropertyValue(oldPasswordField);
+				.getPropertyValue(oldPasswordPropertyName);
 
 		Account account = accountSharedService.findOne(username);
 		String currentPassword = account.getPassword();
@@ -56,7 +56,7 @@ public class OldPasswordValidator implements
 			return true;
 		} else {
 			context.buildConstraintViolationWithTemplate(message)
-					.addPropertyNode(oldPasswordField).addConstraintViolation();
+					.addPropertyNode(oldPasswordPropertyName).addConstraintViolation();
 			return false;
 		}
 	}

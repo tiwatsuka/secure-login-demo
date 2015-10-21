@@ -20,9 +20,9 @@ public @interface ConfirmOldPassword {
 
 	Class<?>[] groups() default {};
 
-	String idField();
+	String idPropertyName();
 
-	String oldPasswordField();
+	String oldPasswordPropertyName();
 
 	@Target({ TYPE, ANNOTATION_TYPE })
 	@Retention(RUNTIME)

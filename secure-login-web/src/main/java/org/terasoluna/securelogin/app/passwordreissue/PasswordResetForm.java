@@ -7,9 +7,9 @@ import org.terasoluna.securelogin.app.common.validation.Confirm;
 import lombok.Data;
 
 @Data
-@Confirm(field = "newPassword")
-@StrongPassword(idField = "username", newPasswordField = "newPassword")
-@NotReused(idField = "username", newPasswordField = "newPassword")
+@Confirm(propertyName = "newPassword")
+@StrongPassword(idPropertyName = "username", newPasswordPropertyName = "newPassword")
+@NotReused(idPropertyName = "username", newPasswordPropertyName = "newPassword")
 public class PasswordResetForm {
 
 	private String username;

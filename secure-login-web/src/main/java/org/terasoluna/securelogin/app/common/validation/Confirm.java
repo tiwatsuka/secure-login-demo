@@ -22,7 +22,7 @@ public @interface Confirm {
 
 	Class<? extends Payload>[] payload() default {};
 
-	String field();
+	String propertyName();
 
 	@Target({ TYPE, ANNOTATION_TYPE })
 	@Retention(RUNTIME)

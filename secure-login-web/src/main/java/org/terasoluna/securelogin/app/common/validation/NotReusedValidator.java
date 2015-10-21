@@ -48,25 +48,25 @@ public class NotReusedValidator implements
 	@Value("${security.passwordHistoricalCheckingPeriod}")
 	int passwordHistoricalCheckingPeriod;
 
-	private String usernameField;
+	private String usernamePropertyName;
 
-	private String newPasswordField;
+	private String newPasswordPropertyName;
 
 	private String message;
 
 	@Override
 	public void initialize(NotReused constraintAnnotation) {
-		usernameField = constraintAnnotation.idField();
-		newPasswordField = constraintAnnotation.newPasswordField();
+		usernamePropertyName = constraintAnnotation.idPropertyName();
+		newPasswordPropertyName = constraintAnnotation.newPasswordPropertyName();
 		message = constraintAnnotation.message();
 	}
 
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
 		BeanWrapper beanWrapper = new BeanWrapperImpl(value);
-		String username = (String) beanWrapper.getPropertyValue(usernameField);
+		String username = (String) beanWrapper.getPropertyValue(usernamePropertyName);
 		String newPassword = (String) beanWrapper
-				.getPropertyValue(newPasswordField);
+				.getPropertyValue(newPasswordPropertyName);
 
 		Account account = accountSharedService.findOne(username);
 		String currentPassword = account.getPassword();
@@ -88,7 +88,7 @@ public class NotReusedValidator implements
 			return true;
 		} else {
 			context.buildConstraintViolationWithTemplate(message)
-					.addPropertyNode(newPasswordField).addConstraintViolation();
+					.addPropertyNode(newPasswordPropertyName).addConstraintViolation();
 			return false;
 		}
 	}
@@ -120,7 +120,7 @@ public class NotReusedValidator implements
 		} else {
 			context.buildConstraintViolationWithTemplate(
 					encodedPasswordHistoryValidator.getMessages(result).get(0))
-					.addPropertyNode(newPasswordField).addConstraintViolation();
+					.addPropertyNode(newPasswordPropertyName).addConstraintViolation();
 			return false;
 		}
 	}

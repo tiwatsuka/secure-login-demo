@@ -20,9 +20,9 @@ public @interface StrongPassword {
 
 	Class<?>[] groups() default {};
 
-	String idField();
+	String idPropertyName();
 
-	String newPasswordField();
+	String newPasswordPropertyName();
 
 	@Target({ TYPE, ANNOTATION_TYPE })
 	@Retention(RUNTIME)

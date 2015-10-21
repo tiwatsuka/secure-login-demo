@@ -21,22 +21,22 @@ public class StrongPasswordValidator implements
 	@Resource(name = "usernamePasswordValidator")
 	PasswordValidator usernamePasswordValidator;
 
-	private String usernameField;
+	private String usernamePropertyName;
 
-	private String newPasswordField;
+	private String newPasswordPropertyName;
 
 	@Override
 	public void initialize(StrongPassword constraintAnnotation) {
-		usernameField = constraintAnnotation.idField();
-		newPasswordField = constraintAnnotation.newPasswordField();
+		usernamePropertyName = constraintAnnotation.idPropertyName();
+		newPasswordPropertyName = constraintAnnotation.newPasswordPropertyName();
 	}
 
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
 		BeanWrapper beanWrapper = new BeanWrapperImpl(value);
-		String username = (String) beanWrapper.getPropertyValue(usernameField);
+		String username = (String) beanWrapper.getPropertyValue(usernamePropertyName);
 		String newPassword = (String) beanWrapper
-				.getPropertyValue(newPasswordField);
+				.getPropertyValue(newPasswordPropertyName);
 
 		context.disableDefaultConstraintViolation();
 
@@ -58,7 +58,7 @@ public class StrongPasswordValidator implements
 					Joiner.on("<br>")
 							.join(characteristicPasswordValidator
 									.getMessages(result)))
-					.addPropertyNode(newPasswordField).addConstraintViolation();
+					.addPropertyNode(newPasswordPropertyName).addConstraintViolation();
 			return false;
 		}
 	}
@@ -74,7 +74,7 @@ public class StrongPasswordValidator implements
 		} else {
 			context.buildConstraintViolationWithTemplate(
 					usernamePasswordValidator.getMessages(result).get(0))
-					.addPropertyNode(newPasswordField).addConstraintViolation();
+					.addPropertyNode(newPasswordPropertyName).addConstraintViolation();
 			return false;
 		}
 	}

@@ -9,32 +9,32 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
 public class ConfirmValidator implements ConstraintValidator<Confirm, Object> {
-	private String field;
+	private String PropertyName;
 
-	private String confirmField;
+	private String confirmPropertyName;
 
 	private String message;
 
 	@Override
 	public void initialize(Confirm constraintAnnotation) {
-		field = constraintAnnotation.field();
-		confirmField = "confirm" + StringUtils.capitalize(field);
+		PropertyName = constraintAnnotation.propertyName();
+		confirmPropertyName = "confirm" + StringUtils.capitalize(PropertyName);
 		message = constraintAnnotation.message();
 	}
 
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
 		BeanWrapper beanWrapper = new BeanWrapperImpl(value);
-		Object fieldValue = beanWrapper.getPropertyValue(field);
-		Object confirmFieldValue = beanWrapper.getPropertyValue(confirmField);
-		boolean matched = ObjectUtils.nullSafeEquals(fieldValue,
-				confirmFieldValue);
+		Object propertyValue = beanWrapper.getPropertyValue(PropertyName);
+		Object confirmPropertyValue = beanWrapper.getPropertyValue(confirmPropertyName);
+		boolean matched = ObjectUtils.nullSafeEquals(propertyValue,
+				confirmPropertyValue);
 		if (matched) {
 			return true;
 		} else {
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(message)
-					.addPropertyNode(confirmField).addConstraintViolation();
+					.addPropertyNode(confirmPropertyName).addConstraintViolation();
 			return false;
 		}
 	}
