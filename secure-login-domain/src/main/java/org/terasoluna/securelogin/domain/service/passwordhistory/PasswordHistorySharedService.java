@@ -8,11 +8,11 @@ import org.terasoluna.securelogin.domain.model.PasswordHistory;
 
 public interface PasswordHistorySharedService {
 
-	public int insert(PasswordHistory history);
+	int insert(PasswordHistory history);
 
-	public List<PasswordHistory> findHistoriesByUseFrom(String username,
+	List<PasswordHistory> findHistoriesByUseFrom(String username,
 			DateTime useFrom);
 
-	public List<PasswordHistory> findLatestHistories(String username, int limit);
+	List<PasswordHistory> findLatestHistories(String username, int limit);
 
 }

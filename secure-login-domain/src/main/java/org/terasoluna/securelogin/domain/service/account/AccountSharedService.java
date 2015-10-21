@@ -11,11 +11,11 @@ public interface AccountSharedService {
 
 	boolean isLocked(String username);
 
-	public boolean isInitialPassword(String username);
+	boolean isInitialPassword(String username);
 
-	public boolean isCurrentPasswordExpired(String username);
+	boolean isCurrentPasswordExpired(String username);
 
-	public boolean updatePassword(String username, String rawPassword);
+	boolean updatePassword(String username, String rawPassword);
 
-	public void clearPasswordValidationCache(String username);
+	void clearPasswordValidationCache(String username);
 }
