@@ -35,14 +35,14 @@ import static org.junit.Assert.assertThat;
 public class PasswordReissueTest extends FunctionTestSupport {
 
 	@Value("${security.tokenValidityThreshold}")
-	private int tokenValidityThreshold;
+	int tokenValidityThreshold;
 
 	@Value("${security.tokenLifeTime}")
-	private int tokenLifeTime;
+	int tokenLifeTime;
 
 	@Inject
 	@Named("dataSource")
-	private DataSource dataSource;
+	DataSource dataSource;
 
 	@Inject
 	ResourceDatabasePopulator populator;

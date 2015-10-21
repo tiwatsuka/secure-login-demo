@@ -30,11 +30,11 @@ import static org.junit.Assert.assertThat;
 public class PasswordLeakageMeasuresTest extends FunctionTestSupport {
 
 	@Value("${security.passwordLifeTime}")
-	private int passwordLifeTime;
+	int passwordLifeTime;
 
 	@Inject
 	@Named("dataSource")
-	private DataSource dataSource;
+	DataSource dataSource;
 
 	@Inject
 	ResourceDatabasePopulator populator;

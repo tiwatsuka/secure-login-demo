@@ -73,16 +73,16 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	List<CharacterRule> passwordGenerationRules;
 
 	@Value("${security.tokenLifeTime}")
-	private int tokenLifeTime;
+	int tokenLifeTime;
 
 	@Value("${app.hostAndPort}")
-	private String hostAndPort;
+	String hostAndPort;
 
 	@Value("${app.contextPath}")
-	private String contextPath;
+	String contextPath;
 
 	@Value("${app.passwordReissueProtocol}")
-	private String protocol;
+	String protocol;
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(PasswordReissueServiceImpl.class);

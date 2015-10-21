@@ -29,14 +29,14 @@ import static org.junit.Assert.assertThat;
 public class AccountLockTest extends FunctionTestSupport {
 
 	@Value("${security.lockingThreshold}")
-	private int lockingThreshold;
+	int lockingThreshold;
 
 	@Value("${security.lockingDuration}")
-	private int lockingDuration;
+	int lockingDuration;
 
 	@Inject
 	@Named("dataSource")
-	private DataSource dataSource;
+	DataSource dataSource;
 
 	@Inject
 	ResourceDatabasePopulator populator;

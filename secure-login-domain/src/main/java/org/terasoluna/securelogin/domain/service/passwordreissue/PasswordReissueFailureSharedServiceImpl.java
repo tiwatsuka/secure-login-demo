@@ -29,7 +29,7 @@ public class PasswordReissueFailureSharedServiceImpl implements
 	PasswordReissueInfoRepository passwordReissueInfoRepository;
 
 	@Value("${security.tokenValidityThreshold}")
-	private int tokenValidityThreshold;
+	int tokenValidityThreshold;
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override

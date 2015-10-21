@@ -26,7 +26,7 @@ import static org.junit.Assert.assertThat;
 public class PasswordStrengthTest extends FunctionTestSupport {
 
 	@Value("${security.passwordMinimumLength}")
-	private int passwordMinimumLength;
+	int passwordMinimumLength;
 
 	@Inject
 	@Named("dataSource")

@@ -29,13 +29,13 @@ import org.terasoluna.securelogin.domain.service.passwordhistory.PasswordHistory
 public class AccountSharedServiceImpl implements AccountSharedService {
 
 	@Inject
-	private AccountAuthenticationLogSharedService accountAuthenticationLogSharedService;
+	AccountAuthenticationLogSharedService accountAuthenticationLogSharedService;
 
 	@Inject
-	private PasswordHistorySharedService passwordHistorySharedService;
+	PasswordHistorySharedService passwordHistorySharedService;
 
 	@Inject
-	private AccountRepository accountRepository;
+	AccountRepository accountRepository;
 
 	@Inject
 	PasswordEncoder passwordEncoder;
@@ -44,13 +44,13 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 	JodaTimeDateFactory dateFactory;
 
 	@Value("${security.lockingDuration}")
-	private int lockingDuration;
+	int lockingDuration;
 
 	@Value("${security.lockingThreshold}")
-	private int lockingThreshold;
+	int lockingThreshold;
 
 	@Value("${security.passwordLifeTime}")
-	private int passwordLifeTime;
+	int passwordLifeTime;
 
 	@Transactional(readOnly = true)
 	@Override
