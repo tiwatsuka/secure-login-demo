@@ -65,4 +65,7 @@
 		</property>
 	</bean>
 
+	<!-- define GreenMailBean -->
+	<bean id="greenMailBean" class="com.icegreen.greenmail.spring.GreenMailBean" />
+
 </beans>

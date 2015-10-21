@@ -16,9 +16,6 @@
 			value="classpath:/META-INF/mybatis/mybatis-config.xml" />
 	</bean>
 
-	<!-- define GreenMailBean -->
-	<bean id="greenMailBean" class="com.icegreen.greenmail.spring.GreenMailBean" />
-
 	<!-- scan for Mappers -->
 	<mybatis:scan base-package="org.terasoluna.securelogin.domain.repository" />
 
