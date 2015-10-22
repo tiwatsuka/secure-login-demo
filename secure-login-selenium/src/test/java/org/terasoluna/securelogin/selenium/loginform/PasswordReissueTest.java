@@ -20,6 +20,7 @@ import org.springframework.jdbc.datasource.init.ScriptException;
 import org.terasoluna.securelogin.selenium.FunctionTestSupport;
 import org.terasoluna.securelogin.selenium.loginform.page.AbstractPageObject;
 import org.terasoluna.securelogin.selenium.loginform.page.login.LoginPage;
+import org.terasoluna.securelogin.selenium.loginform.page.mail.ReceivedMailPage;
 import org.terasoluna.securelogin.selenium.loginform.page.passwordreissue.CreateReissueInfoSuccessPage;
 import org.terasoluna.securelogin.selenium.loginform.page.passwordreissue.PasswordReissuePage;
 import org.terasoluna.securelogin.selenium.loginform.page.welcome.TopPage;
@@ -69,11 +70,11 @@ public class PasswordReissueTest extends FunctionTestSupport {
 		page = ((LoginPage) page).goToCreateReissueInfoPage().makeReissueInfo(
 				"demo");
 		assertTrue(!((CreateReissueInfoSuccessPage) page).getSecret().isEmpty());
+		String secret = ((CreateReissueInfoSuccessPage) page).getSecret();
 
 		// confirm that the URL for reissue password has sent by E-mail
-		String secret = ((CreateReissueInfoSuccessPage) page).getSecret();
-		String mailText = dbLogAssertOperations.getLogByRegexMessage(null,
-				null, "^Text *:.*").get(0);
+		page = new ReceivedMailPage(webDriverOperations, applicationContextUrl).open();
+		String mailText = ((ReceivedMailPage)page).getLatestMailText();
 		assertTrue(mailText.indexOf("http") >= 0);
 		String url = mailText.substring(mailText.indexOf("http"));
 
@@ -101,7 +102,6 @@ public class PasswordReissueTest extends FunctionTestSupport {
 				contextName + "/"));
 
 		page = ((TopPage) page).logout();
-
 	}
 
 	/**
@@ -126,8 +126,8 @@ public class PasswordReissueTest extends FunctionTestSupport {
 					.openWithDescription("secret phrase and URL is generated at random"))
 					.goToCreateReissueInfoPage().makeReissueInfo("demo");
 			String secret = ((CreateReissueInfoSuccessPage) page).getSecret();
-			String mailText = dbLogAssertOperations.getLogByRegexMessage(null,
-					null, "^Text *:.*").get(i);
+			page = new ReceivedMailPage(webDriverOperations, applicationContextUrl).open();
+			String mailText = ((ReceivedMailPage)page).getLatestMailText();
 			String url = mailText.substring(mailText.indexOf("http"));
 			// confirm that the URL is different from any other one
 			assertThat(urls, not(hasItem(url)));
@@ -152,8 +152,8 @@ public class PasswordReissueTest extends FunctionTestSupport {
 
 		page = ((LoginPage) page).goToCreateReissueInfoPage().makeReissueInfo(
 				"demo");
-		String mailText = dbLogAssertOperations.getLogByRegexMessage(null,
-				null, "^Text *:.*").get(0);
+		page = new ReceivedMailPage(webDriverOperations, applicationContextUrl).open();
+		String mailText = ((ReceivedMailPage)page).getLatestMailText();
 		String url = mailText.substring(mailText.indexOf("http"));
 
 		// confirm that the URL is invalidated by series of incorrect password
@@ -181,8 +181,8 @@ public class PasswordReissueTest extends FunctionTestSupport {
 
 		page = ((LoginPage) page).goToCreateReissueInfoPage().makeReissueInfo(
 				"demo");
-		String mailText = dbLogAssertOperations.getLogByRegexMessage(null,
-				null, "^Text *:.*").get(0);
+		page = new ReceivedMailPage(webDriverOperations, applicationContextUrl).open();
+		String mailText = ((ReceivedMailPage)page).getLatestMailText();
 		String url = mailText.substring(mailText.indexOf("http"));
 
 		webDriverOperations.suspend(tokenLifeTime, TimeUnit.SECONDS);

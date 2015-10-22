@@ -1,39 +1,29 @@
 package org.terasoluna.securelogin.domain.service.passwordreissue;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 import org.joda.time.DateTime;
 import org.passay.CharacterRule;
 import org.passay.PasswordGenerator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
-import org.terasoluna.gfw.common.exception.SystemException;
 import org.terasoluna.gfw.common.message.ResultMessages;
-
 import org.terasoluna.securelogin.domain.common.message.MessageKeys;
 import org.terasoluna.securelogin.domain.model.Account;
 import org.terasoluna.securelogin.domain.model.PasswordReissueInfo;
 import org.terasoluna.securelogin.domain.repository.passwordreissue.PasswordReissueFailureLogRepository;
 import org.terasoluna.securelogin.domain.repository.passwordreissue.PasswordReissueInfoRepository;
 import org.terasoluna.securelogin.domain.service.account.AccountSharedService;
-import com.icegreen.greenmail.spring.GreenMailBean;
+import org.terasoluna.securelogin.domain.service.mail.MailSharedService;
 
 @Service
 @Transactional
@@ -42,6 +32,9 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	@Inject
 	PasswordReissueFailureSharedService passwordReissueFailureSharedService;
 
+	@Inject
+	MailSharedService mailSharedService;
+	
 	@Inject
 	PasswordReissueInfoRepository passwordReissueInfoRepository;
 
@@ -60,15 +53,6 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	@Inject
 	PasswordGenerator passwordGenerator;
 
-	@Inject
-	JavaMailSender mailSender;
-
-	@Inject
-	SimpleMailMessage templateMessage;
-
-	@Inject
-	GreenMailBean greenMailBean;
-
 	@Resource(name = "passwordGenerationRules")
 	List<CharacterRule> passwordGenerationRules;
 
@@ -83,9 +67,6 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 
 	@Value("${app.passwordReissueProtocol}")
 	String protocol;
-
-	private static final Logger logger = LoggerFactory
-			.getLogger(PasswordReissueServiceImpl.class);
 
 	@Override
 	public PasswordReissueInfo createReissueInfo(String username) {
@@ -121,30 +102,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 					+ contextPath + "/reissue/resetpassword/?form&username="
 					+ info.getUsername() + "&token=" + info.getToken();
 
-			SimpleMailMessage message = new SimpleMailMessage(templateMessage);
-			message.setTo(account.getEmail());
-			message.setText(passwordResetUrl);
-			mailSender.send(message);
-
-			/* output received message to log for testing */
-			try {
-				MimeMessage[] receivedMessages = greenMailBean
-						.getReceivedMessages();
-				MimeMessage latestMessage = receivedMessages[receivedMessages.length - 1];
-				if (logger.isDebugEnabled()) {
-					logger.debug("From    : {}",
-							latestMessage.getFrom()[0].toString());
-					logger.debug("To      : {}", latestMessage
-							.getRecipients(Message.RecipientType.TO)[0]
-							.toString());
-					logger.debug("Subject : {}", latestMessage.getSubject());
-					logger.debug("Text    : {}", latestMessage.getContent());
-				}
-			} catch (IOException e) {
-				throw new SystemException(MessageKeys.E_SL_FW_9001, e);
-			} catch (MessagingException e) {
-				throw new SystemException(MessageKeys.E_SL_FW_9001, e);
-			}
+			mailSharedService.send(account.getEmail(), passwordResetUrl);
 
 			return true;
 		} else {

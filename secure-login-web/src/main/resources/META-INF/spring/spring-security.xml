@@ -27,6 +27,7 @@
 			delete-cookies="JSESSIONID" />
 		<sec:intercept-url pattern="/login" access="permitAll" />
 		<sec:intercept-url pattern="/reissue/**" access="permitAll" />
+		<sec:intercept-url pattern="/api/receivedmail" access="permitAll" />
 		<sec:intercept-url pattern="/unlock/**" access="hasRole('ROLE_ADMN')" />
 		<sec:intercept-url pattern="/**" access="isAuthenticated()" />
 	</sec:http>
