@@ -11,5 +11,5 @@ public interface AccountAuthenticationSuccessLogRepository {
 	int insert(AccountAuthenticationSuccessLog accountAuthenticationLog);
 
 	List<AccountAuthenticationSuccessLog> findLatestLogs(
-			@Param("username") String username, @Param("numOfLog") long numOfLog);
+			@Param("username") String username, @Param("count") long count);
 }
