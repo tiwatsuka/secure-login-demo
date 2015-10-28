@@ -23,9 +23,6 @@ public class AccountAuthenticationFailureBadCredentialsEventListener implements
 	AccountAuthenticationLogSharedService accountAuthenticationLogSharedService;
 
 	@Inject
-	AccountSharedService accountSharedService;
-
-	@Inject
 	JodaTimeDateFactory dateFactory;
 
 	@Override
