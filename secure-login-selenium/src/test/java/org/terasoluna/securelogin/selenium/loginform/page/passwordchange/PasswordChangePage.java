@@ -46,7 +46,7 @@ public class PasswordChangePage extends AuthenticationRequiredPage {
 	}
 
 	public String getNewPasswordError() {
-		return webDriverOperations.getText(id("newPasswordError"));
+		return webDriverOperations.getText(id("newPassword.errors"));
 	}
 
 }

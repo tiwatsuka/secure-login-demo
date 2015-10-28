@@ -25,13 +25,13 @@
 				<tr>
 					<th><form:label path="secret" cssErrorClass="error-label">Secret</form:label>
 					</th>
-					<td><form:password id="secret" path="secret" cssErrorClass="error-input" /></td>
+					<td><form:password path="secret" cssErrorClass="error-input" /></td>
 					<td><form:errors path="secret" cssClass="error-messages" /></td>
 				</tr>
 				<tr>
 					<th><form:label path="newPassword" cssErrorClass="error-label">New password</form:label>
 					</th>
-					<td><form:password id="newPassword" path="newPassword"
+					<td><form:password path="newPassword"
 							cssErrorClass="error-input" /></td>
 					<td><form:errors path="newPassword" cssClass="error-messages"
 							htmlEscape="false" /></td>
@@ -39,7 +39,7 @@
 				<tr>
 					<th><form:label path="confirmNewPassword"
 							cssErrorClass="error-label">New password(Confirm)</form:label></th>
-					<td><form:password id="confirmNewPassword" path="confirmNewPassword"
+					<td><form:password path="confirmNewPassword"
 							cssErrorClass="error-input" /></td>
 					<td><form:errors path="confirmNewPassword"
 							cssClass="error-messages" /></td>

@@ -22,24 +22,24 @@
 				<tr>
 					<th><form:label path="oldPassword" cssErrorClass="error-label">Old password</form:label>
 					</th>
-					<td><form:password id="oldPassword" path="oldPassword"
+					<td><form:password path="oldPassword"
 							cssErrorClass="error-input" /></td>
-					<td><form:errors id="oldPasswordError" path="oldPassword" cssClass="error-messages" /></td>
+					<td><form:errors path="oldPassword" cssClass="error-messages" /></td>
 				</tr>
 				<tr>
 					<th><form:label path="newPassword" cssErrorClass="error-label">New password</form:label>
 					</th>
-					<td><form:password id="newPassword" path="newPassword"
+					<td><form:password path="newPassword"
 							cssErrorClass="error-input" /></td>
-					<td><form:errors id="newPasswordError" path="newPassword" cssClass="error-messages"
+					<td><form:errors path="newPassword" cssClass="error-messages"
 							htmlEscape="false" /></td>
 				</tr>
 				<tr>
-					<th><form:label id="confirmPassword" path="confirmNewPassword"
+					<th><form:label path="confirmNewPassword"
 							cssErrorClass="error-label">New password(Confirm)</form:label></th>
 					<td><form:password path="confirmNewPassword"
 							cssErrorClass="error-input" /></td>
-					<td><form:errors id="confirmNewPasswordError" path="confirmNewPassword"
+					<td><form:errors path="confirmNewPassword"
 							cssClass="error-messages" /></td>
 				</tr>
 			</table>

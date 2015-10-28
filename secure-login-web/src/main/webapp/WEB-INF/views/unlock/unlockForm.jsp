@@ -16,8 +16,7 @@
 				<tr>
 					<th><form:label path="username" cssErrorClass="error-label">Username</form:label>
 					</th>
-					<td><form:input id="username" path="username" value="${f:h(form.username)}"
-							cssErrorClass="error-input" /></td>
+					<td><form:input path="username" cssErrorClass="error-input" /></td>
 					<td><form:errors path="username" cssClass="error-messages" /></td>
 				</tr>
 			</table>
