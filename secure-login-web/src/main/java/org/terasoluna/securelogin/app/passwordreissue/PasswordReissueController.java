@@ -25,8 +25,7 @@ public class PasswordReissueController {
 	PasswordReissueService passwordReissueService;
 
 	@RequestMapping(value = "create", params = "form")
-	public String showCreateReissueInfoForm(CreateReissueInfoForm form,
-			Model model) {
+	public String showCreateReissueInfoForm(CreateReissueInfoForm form) {
 		return "passwordreissue/createReissueInfoForm";
 	}
 
@@ -35,7 +34,7 @@ public class PasswordReissueController {
 			BindingResult bindingResult, Model model,
 			RedirectAttributes attributes) {
 		if (bindingResult.hasErrors()) {
-			return showCreateReissueInfoForm(form, model);
+			return showCreateReissueInfoForm(form);
 		}
 
 		PasswordReissueInfo info = passwordReissueService
@@ -48,7 +47,7 @@ public class PasswordReissueController {
 			return "redirect:/reissue/create?complete";
 		} catch (ResourceNotFoundException e) {
 			model.addAttribute(e.getResultMessages());
-			return showCreateReissueInfoForm(form, model);
+			return showCreateReissueInfoForm(form);
 		}
 	}
 

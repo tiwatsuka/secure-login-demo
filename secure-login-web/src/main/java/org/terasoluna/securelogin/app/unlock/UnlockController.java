@@ -21,7 +21,7 @@ public class UnlockController {
 	UnlockService unlockService;
 
 	@RequestMapping(params = "form")
-	public String showForm(UnlockForm form, Model model) {
+	public String showForm(UnlockForm form) {
 		return "unlock/unlockForm";
 	}
 
@@ -30,7 +30,7 @@ public class UnlockController {
 			BindingResult bindingResult, Model model,
 			RedirectAttributes attributes) {
 		if (bindingResult.hasErrors()) {
-			return showForm(form, model);
+			return showForm(form);
 		}
 
 		try {
@@ -39,7 +39,7 @@ public class UnlockController {
 			return "redirect:/unlock?complete";
 		} catch (BusinessException e) {
 			model.addAttribute(e.getResultMessages());
-			return showForm(form, model);
+			return showForm(form);
 		}
 	}
 
