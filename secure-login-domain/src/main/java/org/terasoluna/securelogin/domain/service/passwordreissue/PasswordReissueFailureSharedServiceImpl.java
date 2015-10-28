@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 
-import org.terasoluna.securelogin.domain.model.PasswordReissueFailureLog;
-import org.terasoluna.securelogin.domain.repository.passwordreissue.PasswordReissueFailureLogRepository;
+import org.terasoluna.securelogin.domain.model.FailedPasswordReissue;
+import org.terasoluna.securelogin.domain.repository.passwordreissue.FailedPasswordReissueRepository;
 import org.terasoluna.securelogin.domain.repository.passwordreissue.PasswordReissueInfoRepository;
 
 @Service
@@ -20,7 +20,7 @@ public class PasswordReissueFailureSharedServiceImpl implements
 		PasswordReissueFailureSharedService {
 
 	@Inject
-	PasswordReissueFailureLogRepository passwordReissueFailureLogRepository;
+	FailedPasswordReissueRepository failedPasswordReissueRepository;
 
 	@Inject
 	JodaTimeDateFactory dateFactory;
@@ -34,16 +34,16 @@ public class PasswordReissueFailureSharedServiceImpl implements
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void resetFailure(String username, String token) {
-		PasswordReissueFailureLog log = new PasswordReissueFailureLog();
-		log.setToken(token);
-		log.setAttemptDate(dateFactory.newDateTime());
-		passwordReissueFailureLogRepository.insert(log);
+		FailedPasswordReissue event = new FailedPasswordReissue();
+		event.setToken(token);
+		event.setAttemptDate(dateFactory.newDateTime());
+		failedPasswordReissueRepository.insert(event);
 
-		List<PasswordReissueFailureLog> logs = passwordReissueFailureLogRepository
+		List<FailedPasswordReissue> events = failedPasswordReissueRepository
 				.findByToken(token);
-		if (logs.size() >= tokenValidityThreshold) {
+		if (events.size() >= tokenValidityThreshold) {
 			passwordReissueInfoRepository.delete(token);
-			passwordReissueFailureLogRepository.deleteByToken(token);
+			failedPasswordReissueRepository.deleteByToken(token);
 		}
 	}
 

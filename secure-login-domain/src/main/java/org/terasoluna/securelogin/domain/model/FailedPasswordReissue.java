@@ -5,7 +5,7 @@ import lombok.Data;
 import org.joda.time.DateTime;
 
 @Data
-public class PasswordReissueFailureLog {
+public class FailedPasswordReissue {
 
 	private String token;
 

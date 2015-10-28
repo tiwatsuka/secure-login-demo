@@ -6,10 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.message.ResultMessages;
-
 import org.terasoluna.securelogin.domain.common.message.MessageKeys;
 import org.terasoluna.securelogin.domain.service.account.AccountSharedService;
-import org.terasoluna.securelogin.domain.service.accountauthenticationlog.AccountAuthenticationLogSharedService;
+import org.terasoluna.securelogin.domain.service.authenticationevent.AuthenticationEventSharedService;
 
 @Transactional
 @Service
@@ -19,7 +18,7 @@ public class UnlockServiceImpl implements UnlockService {
 	AccountSharedService accountSharedService;
 
 	@Inject
-	AccountAuthenticationLogSharedService accountAuthenticationLogSharedService;
+	AuthenticationEventSharedService authenticationEventSharedService;
 
 	@Override
 	public boolean unlock(String username) {
@@ -28,8 +27,8 @@ public class UnlockServiceImpl implements UnlockService {
 					MessageKeys.E_SL_UL_5001));
 		}
 
-		accountAuthenticationLogSharedService
-				.deleteFailureLogByUsername(username);
+		authenticationEventSharedService
+				.deleteFailureEventByUsername(username);
 
 		return true;
 	}

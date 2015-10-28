@@ -1,8 +1,8 @@
-DROP TABLE IF EXISTS account_authentication_success_log;
-DROP TABLE IF EXISTS account_authentication_failure_log;
+DROP TABLE IF EXISTS successful_authentication;
+DROP TABLE IF EXISTS failed_authentication;
 DROP TABLE IF EXISTS password_history;
 DROP TABLE IF EXISTS password_reissue_info;
-DROP TABLE IF EXISTS password_reissue_failure_log;
+DROP TABLE IF EXISTS failed_password_reissue;
 DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS account;
 
@@ -22,21 +22,21 @@ CREATE TABLE role(
 	CONSTRAINT fk_tbl_role FOREIGN KEY (username) REFERENCES account(username)
 );
 
-CREATE TABLE account_authentication_success_log(
+CREATE TABLE successful_authentication(
 	username VARCHAR(128),
 	authentication_timestamp TIMESTAMP,
 	CONSTRAINT pk_tbl_aasf PRIMARY KEY (username, authentication_timestamp)
 );
 
-CREATE TABLE account_authentication_failure_log(
+CREATE TABLE failed_authentication(
 	username VARCHAR(128),
 	authentication_timestamp TIMESTAMP,
 	CONSTRAINT pk_tbl_aaff PRIMARY KEY (username, authentication_timestamp)
 );
 
-CREATE INDEX idx_tbl_aasl_t ON account_authentication_success_log (authentication_timestamp);
+CREATE INDEX idx_tbl_aasl_t ON successful_authentication (authentication_timestamp);
 
-CREATE INDEX idx_tbl_aafl_t ON account_authentication_failure_log (authentication_timestamp);
+CREATE INDEX idx_tbl_aafl_t ON failed_authentication (authentication_timestamp);
 
 CREATE TABLE password_history(
 	username VARCHAR(128),
@@ -54,10 +54,10 @@ CREATE TABLE password_reissue_info(
 	CONSTRAINT fk_tbl_pri FOREIGN KEY (username) REFERENCES account(username)
 );
 
-CREATE TABLE password_reissue_failure_log(
+CREATE TABLE failed_password_reissue(
 	token VARCHAR(128),
 	attempt_date TIMESTAMP,
 	CONSTRAINT pk_tbl_prfl PRIMARY KEY (token, attempt_date)
 );
 
-CREATE INDEX idx_tbl_prfl ON password_reissue_failure_log (token);
+CREATE INDEX idx_tbl_prfl ON failed_password_reissue (token);

@@ -20,7 +20,7 @@ import org.terasoluna.gfw.common.message.ResultMessages;
 import org.terasoluna.securelogin.domain.common.message.MessageKeys;
 import org.terasoluna.securelogin.domain.model.Account;
 import org.terasoluna.securelogin.domain.model.PasswordReissueInfo;
-import org.terasoluna.securelogin.domain.repository.passwordreissue.PasswordReissueFailureLogRepository;
+import org.terasoluna.securelogin.domain.repository.passwordreissue.FailedPasswordReissueRepository;
 import org.terasoluna.securelogin.domain.repository.passwordreissue.PasswordReissueInfoRepository;
 import org.terasoluna.securelogin.domain.service.account.AccountSharedService;
 import org.terasoluna.securelogin.domain.service.mail.MailSharedService;
@@ -39,7 +39,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	PasswordReissueInfoRepository passwordReissueInfoRepository;
 
 	@Inject
-	PasswordReissueFailureLogRepository passwordReissueFailureLogRepository;
+	FailedPasswordReissueRepository failedPasswordReissueRepository;
 
 	@Inject
 	AccountSharedService accountSharedService;
@@ -142,7 +142,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 					MessageKeys.E_SL_PR_5003));
 		}
 		passwordReissueInfoRepository.delete(token);
-		passwordReissueFailureLogRepository.deleteByToken(token);
+		failedPasswordReissueRepository.deleteByToken(token);
 
 		return accountSharedService.updatePassword(username, rawPassword);
 
@@ -150,7 +150,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 
 	@Override
 	public boolean removeExpired(DateTime date) {
-		passwordReissueFailureLogRepository.deleteExpired(date);
+		failedPasswordReissueRepository.deleteExpired(date);
 		passwordReissueInfoRepository.deleteExpired(date);
 		return true;
 	}

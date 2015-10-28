@@ -1,7 +1,7 @@
-TRUNCATE TABLE account_authentication_success_log;
-TRUNCATE TABLE account_authentication_failure_log;
+TRUNCATE TABLE successful_authentication;
+TRUNCATE TABLE failed_authentication;
 TRUNCATE TABLE password_history;
-TRUNCATE TABLE password_reissue_failure_log;
+TRUNCATE TABLE failed_password_reissue;
 TRUNCATE TABLE account, role, password_reissue_info;
 
 INSERT INTO account(username, password, first_name, last_name, email) VALUES('demo', '$2a$10$oxSJl.keBwxmsMLkcT9lPeAIxfNTPNQxpeywMrF7A3kVszwUTqfTK', 'Taro', 'Yamada', 'taro.yamada@test.com');

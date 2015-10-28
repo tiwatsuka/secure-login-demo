@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
 import lombok.Data;
 
 @Data
-public class AccountAuthenticationSuccessLog implements Serializable {
+public class SuccessfulAuthentication implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String username;

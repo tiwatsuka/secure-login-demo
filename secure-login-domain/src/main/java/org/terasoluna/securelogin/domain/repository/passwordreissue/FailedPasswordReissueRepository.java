@@ -5,13 +5,13 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.joda.time.DateTime;
 
-import org.terasoluna.securelogin.domain.model.PasswordReissueFailureLog;
+import org.terasoluna.securelogin.domain.model.FailedPasswordReissue;
 
-public interface PasswordReissueFailureLogRepository {
+public interface FailedPasswordReissueRepository {
 
-	List<PasswordReissueFailureLog> findByToken(@Param("token") String token);
+	List<FailedPasswordReissue> findByToken(@Param("token") String token);
 
-	int insert(PasswordReissueFailureLog log);
+	int insert(FailedPasswordReissue event);
 
 	int deleteByToken(@Param("token") String token);
 
