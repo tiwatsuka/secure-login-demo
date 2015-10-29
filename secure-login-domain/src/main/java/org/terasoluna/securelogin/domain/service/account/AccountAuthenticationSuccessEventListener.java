@@ -2,8 +2,6 @@ package org.terasoluna.securelogin.domain.service.account;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.stereotype.Component;
@@ -16,9 +14,6 @@ import org.terasoluna.securelogin.domain.service.userdetails.LoggedInUser;
 public class AccountAuthenticationSuccessEventListener implements
 		ApplicationListener<AuthenticationSuccessEvent> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(AccountAuthenticationSuccessEventListener.class);
-
 	@Inject
 	AuthenticationEventSharedService authenticationEventSharedService;
 
@@ -27,8 +22,6 @@ public class AccountAuthenticationSuccessEventListener implements
 
 	@Override
 	public void onApplicationEvent(AuthenticationSuccessEvent event) {
-		logger.info("ログイン成功時の処理をここに書けます -> {}", event);
-
 		LoggedInUser details = (LoggedInUser) event.getAuthentication()
 				.getPrincipal();
 

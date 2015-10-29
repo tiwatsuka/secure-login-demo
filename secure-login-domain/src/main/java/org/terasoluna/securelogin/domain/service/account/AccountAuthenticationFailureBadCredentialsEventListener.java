@@ -2,8 +2,6 @@ package org.terasoluna.securelogin.domain.service.account;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.stereotype.Component;
@@ -15,9 +13,6 @@ import org.terasoluna.securelogin.domain.service.authenticationevent.Authenticat
 public class AccountAuthenticationFailureBadCredentialsEventListener implements
 		ApplicationListener<AuthenticationFailureBadCredentialsEvent> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(AccountAuthenticationFailureBadCredentialsEventListener.class);
-
 	@Inject
 	AuthenticationEventSharedService authenticationEventSharedService;
 
@@ -27,7 +22,6 @@ public class AccountAuthenticationFailureBadCredentialsEventListener implements
 	@Override
 	public void onApplicationEvent(
 			AuthenticationFailureBadCredentialsEvent event) {
-		logger.info("ログイン失敗時の処理をここに書けます -> {}", event);
 
 		String username = (String) event.getAuthentication().getPrincipal();
 

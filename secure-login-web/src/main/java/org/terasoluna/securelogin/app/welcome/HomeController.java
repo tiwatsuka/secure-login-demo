@@ -6,8 +6,6 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,9 +22,6 @@ import org.terasoluna.securelogin.domain.service.userdetails.LoggedInUser;
 @Controller
 public class HomeController {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(HomeController.class);
-
 	@Inject
 	AccountSharedService accountSharedService;
 
@@ -36,7 +31,6 @@ public class HomeController {
 	@RequestMapping(value = "/", method = { RequestMethod.GET,
 			RequestMethod.POST })
 	public String home(Principal principal, Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
 
 		Authentication authentication = (Authentication) principal;
 		LoggedInUser userDetails = (LoggedInUser) authentication.getPrincipal();
