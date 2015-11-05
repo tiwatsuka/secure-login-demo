@@ -34,7 +34,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 
 	@Inject
 	MailSharedService mailSharedService;
-	
+
 	@Inject
 	PasswordReissueInfoRepository passwordReissueInfoRepository;
 
@@ -69,12 +69,15 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	String protocol;
 
 	@Override
-	public PasswordReissueInfo createReissueInfo(String username) {
+	public String createRawSecret() {
+		return passwordGenerator.generatePassword(10, passwordGenerationRules);
+	}
 
+	@Override
+	public boolean saveAndSendReissueInfo(String username, String rowSecret) {
+		Account account = accountSharedService.findOne(username);
+		
 		String token = UUID.randomUUID().toString();
-
-		String secret = passwordGenerator.generatePassword(10,
-				passwordGenerationRules);
 
 		DateTime expiryDate = dateFactory.newDateTime().plusSeconds(
 				tokenLifeTime);
@@ -82,19 +85,9 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 		PasswordReissueInfo info = new PasswordReissueInfo();
 		info.setUsername(username);
 		info.setToken(token);
-		info.setSecret(secret);
+		info.setSecret(passwordEncoder.encode(rowSecret));
 		info.setExpiryDate(expiryDate);
-
-		return info;
-	}
-
-	@Override
-	public boolean saveAndSendReissueInfo(PasswordReissueInfo info) {
-		Account account = accountSharedService.findOne(info.getUsername()); // existence
-																			// check
-
-		info.setSecret(passwordEncoder.encode(info.getSecret()));
-
+		
 		int count = passwordReissueInfoRepository.insert(info);
 
 		if (count > 0) {
@@ -133,7 +126,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	}
 
 	@Override
-	public boolean resetPassowrd(String username, String token, String secret,
+	public boolean resetPassword(String username, String token, String secret,
 			String rawPassword) {
 		PasswordReissueInfo info = this.findOne(username, token);
 		if (!passwordEncoder.matches(secret, info.getSecret())) {

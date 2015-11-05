@@ -6,13 +6,13 @@ import org.terasoluna.securelogin.domain.model.PasswordReissueInfo;
 
 public interface PasswordReissueService {
 
-	PasswordReissueInfo createReissueInfo(String username);
+	String createRawSecret();
 
-	boolean saveAndSendReissueInfo(PasswordReissueInfo info);
+	boolean saveAndSendReissueInfo(String username, String rowSecret);
 
 	PasswordReissueInfo findOne(String username, String token);
 
-	boolean resetPassowrd(String username, String token, String secret,
+	boolean resetPassword(String username, String token, String secret,
 			String rawPassword);
 
 	boolean removeExpired(DateTime date);

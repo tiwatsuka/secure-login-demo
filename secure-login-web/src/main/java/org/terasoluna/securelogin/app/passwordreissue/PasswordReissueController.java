@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 
-import org.terasoluna.securelogin.domain.model.PasswordReissueInfo;
 import org.terasoluna.securelogin.domain.service.passwordreissue.PasswordReissueService;
 
 @Controller
@@ -37,13 +36,12 @@ public class PasswordReissueController {
 			return showCreateReissueInfoForm(form);
 		}
 
-		PasswordReissueInfo info = passwordReissueService
-				.createReissueInfo(form.getUsername());
-		String rowPassword = info.getSecret();
+		String rawSecret = passwordReissueService.createRawSecret();
 
 		try {
-			passwordReissueService.saveAndSendReissueInfo(info);
-			attributes.addFlashAttribute("password", rowPassword);
+			passwordReissueService.saveAndSendReissueInfo(form.getUsername(),
+					rawSecret);
+			attributes.addFlashAttribute("secret", rawSecret);
 			return "redirect:/reissue/create?complete";
 		} catch (ResourceNotFoundException e) {
 			model.addAttribute(e.getResultMessages());
@@ -78,7 +76,7 @@ public class PasswordReissueController {
 		}
 
 		try {
-			passwordReissueService.resetPassowrd(form.getUsername(),
+			passwordReissueService.resetPassword(form.getUsername(),
 					form.getToken(), form.getSecret(), form.getNewPassword());
 			return "redirect:/reissue/resetpassword?complete";
 		} catch (BusinessException e) {
