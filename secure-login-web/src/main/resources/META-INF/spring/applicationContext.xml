@@ -105,12 +105,6 @@
 			<list value-type="org.passay.Rule">
 				<ref bean="lengthRule" />
 				<ref bean="characterCharacteristicsRule" />
-			</list>
-		</constructor-arg>
-	</bean>
-	<bean id="usernamePasswordValidator" class="org.passay.PasswordValidator">
-		<constructor-arg name="rules">
-			<list value-type="org.passay.Rule">
 				<ref bean="usernameRule" />
 			</list>
 		</constructor-arg>

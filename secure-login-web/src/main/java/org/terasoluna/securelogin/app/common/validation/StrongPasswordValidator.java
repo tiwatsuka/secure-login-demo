@@ -18,9 +18,6 @@ public class StrongPasswordValidator implements
 	@Resource(name = "characteristicPasswordValidator")
 	PasswordValidator characteristicPasswordValidator;
 
-	@Resource(name = "usernamePasswordValidator")
-	PasswordValidator usernamePasswordValidator;
-
 	private String usernamePropertyName;
 
 	private String newPasswordPropertyName;
@@ -40,17 +37,8 @@ public class StrongPasswordValidator implements
 
 		context.disableDefaultConstraintViolation();
 
-		boolean result = checkCharacteristicsConstraints(newPassword, context);
-		result = checkNotContainUsername(username, newPassword, context)
-				&& result;
-
-		return result;
-	}
-
-	private boolean checkCharacteristicsConstraints(String newPassword,
-			ConstraintValidatorContext context) {
 		RuleResult result = characteristicPasswordValidator
-				.validate(new PasswordData(newPassword));
+				.validate(PasswordData.newInstance(newPassword, username, null));
 		if (result.isValid()) {
 			return true;
 		} else {
@@ -58,22 +46,6 @@ public class StrongPasswordValidator implements
 					Joiner.on("<br>")
 							.join(characteristicPasswordValidator
 									.getMessages(result)))
-					.addPropertyNode(newPasswordPropertyName).addConstraintViolation();
-			return false;
-		}
-	}
-
-	private boolean checkNotContainUsername(String username,
-			String newPassword, ConstraintValidatorContext context) {
-		PasswordData passwordData = PasswordData.newInstance(newPassword,
-				username, null);
-		RuleResult result = usernamePasswordValidator.validate(passwordData);
-
-		if (result.isValid()) {
-			return true;
-		} else {
-			context.buildConstraintViolationWithTemplate(
-					usernamePasswordValidator.getMessages(result).get(0))
 					.addPropertyNode(newPasswordPropertyName).addConstraintViolation();
 			return false;
 		}
