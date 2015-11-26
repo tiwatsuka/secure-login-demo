@@ -42,8 +42,8 @@ public class PasswordReissueFailureSharedServiceImpl implements
 		List<FailedPasswordReissue> events = failedPasswordReissueRepository
 				.findByToken(token);
 		if (events.size() >= tokenValidityThreshold) {
-			passwordReissueInfoRepository.delete(token);
 			failedPasswordReissueRepository.deleteByToken(token);
+			passwordReissueInfoRepository.delete(token);
 		}
 	}
 
