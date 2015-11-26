@@ -31,8 +31,7 @@
 					</th>
 					<td><form:password path="newPassword"
 							cssErrorClass="error-input" /></td>
-					<td><form:errors path="newPassword" cssClass="error-messages"
-							htmlEscape="false" /></td>
+					<td><form:errors path="newPassword" cssClass="error-messages"/></td>
 				</tr>
 				<tr>
 					<th><form:label path="confirmNewPassword"
