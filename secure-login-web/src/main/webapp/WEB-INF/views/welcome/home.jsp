@@ -18,8 +18,12 @@
 
 		<p>Welcome ${f:h(account.firstName)} ${f:h(account.lastName)}</p>
 
+		<sec:authentication property="principal.lastLoginDate" var="lastLoginDate"/>
 		<c:if test="${f:h(lastLoginDate != null)}">
-			<p id="lastLogin">Last login date is ${f:h(lastLoginDate)}.</p>
+			<p id="lastLogin">
+				Last login date is 
+				<joda:format value="${lastLoginDate}" pattern="yyyy-MM-dd HH:mm:ss" />.
+			</p>
 		</c:if>
 
 		<form:form action="${f:h(pageContext.request.contextPath)}/logout">
