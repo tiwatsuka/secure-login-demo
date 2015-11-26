@@ -12,14 +12,12 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.SystemException;
 import org.terasoluna.securelogin.domain.common.message.MessageKeys;
 import org.terasoluna.securelogin.domain.model.ReceivedMail;
 
 import com.icegreen.greenmail.spring.GreenMailBean;
 
-@Transactional
 @Service
 public class MailSharedServiceImpl implements MailSharedService {
 
