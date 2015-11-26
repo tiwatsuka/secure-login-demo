@@ -32,7 +32,7 @@ public class LoggedInUserDetailsService implements UserDetailsService {
 			List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 			for (Role role : account.getRoles()) {
 				authorities.add(new SimpleGrantedAuthority("ROLE_"
-						+ role.getCodeValue()));
+						+ role.getRoleValue()));
 			}
 			return new LoggedInUser(account,
 					accountSharedService.isLocked(username),

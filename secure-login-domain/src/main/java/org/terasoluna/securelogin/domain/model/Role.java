@@ -1,23 +1,19 @@
 package org.terasoluna.securelogin.domain.model;
 
-import org.terasoluna.gfw.common.codelist.EnumCodeList;
-
-public enum Role implements EnumCodeList.CodeListItem {
+public enum Role {
 	ADMN("administrator"), USER("user");
 
-	private final String label;
+	private final String roleLabel;
 
-	private Role(String codeLabel) {
-		this.label = codeLabel;
+	private Role(String roleLabel) {
+		this.roleLabel = roleLabel;
 	}
 
-	@Override
-	public String getCodeLabel() {
-		return label;
+	public String getRoleLabel() {
+		return roleLabel;
 	}
 
-	@Override
-	public String getCodeValue() {
+	public String getRoleValue() {
 		return this.name();
 	}
 
