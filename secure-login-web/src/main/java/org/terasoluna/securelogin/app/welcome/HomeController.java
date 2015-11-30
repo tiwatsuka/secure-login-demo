@@ -2,7 +2,7 @@ package org.terasoluna.securelogin.app.welcome;
 
 import javax.inject.Inject;
 
-import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
