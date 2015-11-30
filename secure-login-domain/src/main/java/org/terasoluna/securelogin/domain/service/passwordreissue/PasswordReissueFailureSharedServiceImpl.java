@@ -1,7 +1,5 @@
 package org.terasoluna.securelogin.domain.service.passwordreissue;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -39,9 +37,9 @@ public class PasswordReissueFailureSharedServiceImpl implements
 		event.setAttemptDate(dateFactory.newDateTime());
 		failedPasswordReissueRepository.insert(event);
 
-		List<FailedPasswordReissue> events = failedPasswordReissueRepository
-				.findByToken(token);
-		if (events.size() >= tokenValidityThreshold) {
+		int count = failedPasswordReissueRepository
+				.countByToken(token);
+		if (count >= tokenValidityThreshold) {
 			failedPasswordReissueRepository.deleteByToken(token);
 			passwordReissueInfoRepository.delete(token);
 		}
