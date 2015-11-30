@@ -3,12 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.terasoluna.app</groupId>
     <artifactId>secure-login</artifactId>
-    <version>5.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <parent>
         <groupId>org.terasoluna.gfw</groupId>
         <artifactId>terasoluna-gfw-parent</artifactId>
-        <version>5.0.1.RELEASE</version>
+        <version>5.1.0-SNAPSHOT</version>
     </parent>
 
     <name>TERASOLUNA Server Framework for Java (5.x) Web Blank Multi Project (MyBatis3)</name>
