@@ -96,7 +96,7 @@
 	<bean id="usernameRule" class="org.passay.UsernameRule" />
 	<bean id="encodedPasswordHistoryRule"
 		class="org.terasoluna.securelogin.app.common.validation.rule.EncodedPasswordHistoryRule">
-		<property name="passwordEncoder" ref="passwordEncoder" />
+		<constructor-arg name="passwordEncoder" ref="passwordEncoder" />
 	</bean>
 
 	<!-- Password Validator. -->
