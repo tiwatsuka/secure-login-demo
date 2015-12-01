@@ -1,13 +1,12 @@
 package org.terasoluna.securelogin.domain.service.passwordhistory;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import org.terasoluna.securelogin.domain.model.PasswordHistory;
 import org.terasoluna.securelogin.domain.repository.passwordhistory.PasswordHistoryRepository;
 
@@ -25,7 +24,7 @@ public class PasswordHistorySharedServiceImpl implements
 
 	@Transactional(readOnly = true)
 	public List<PasswordHistory> findHistoriesByUseFrom(String username,
-			DateTime useFrom) {
+			LocalDateTime useFrom) {
 		return passwordHistoryRepository.findByUseFrom(username, useFrom);
 	}
 

@@ -1,6 +1,6 @@
 package org.terasoluna.securelogin.domain.model;
 
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -10,5 +10,5 @@ public class PasswordHistory {
 
 	private String password;
 
-	private DateTime useFrom;
+	private LocalDateTime useFrom;
 }

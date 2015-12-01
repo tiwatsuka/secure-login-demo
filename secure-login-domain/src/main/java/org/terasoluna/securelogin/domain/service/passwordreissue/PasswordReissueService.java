@@ -1,6 +1,6 @@
 package org.terasoluna.securelogin.domain.service.passwordreissue;
 
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 
 import org.terasoluna.securelogin.domain.model.PasswordReissueInfo;
 
@@ -15,5 +15,5 @@ public interface PasswordReissueService {
 	boolean resetPassword(String username, String token, String secret,
 			String rawPassword);
 
-	boolean removeExpired(DateTime date);
+	boolean removeExpired(LocalDateTime date);
 }

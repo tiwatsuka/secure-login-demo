@@ -1,11 +1,12 @@
 package org.terasoluna.securelogin.domain.service.account;
 
+import java.time.LocalDateTime;
+
 import javax.inject.Inject;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.stereotype.Component;
-import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 import org.terasoluna.securelogin.domain.model.SuccessfulAuthentication;
 import org.terasoluna.securelogin.domain.service.authenticationevent.AuthenticationEventSharedService;
 import org.terasoluna.securelogin.domain.service.userdetails.LoggedInUser;
@@ -17,9 +18,6 @@ public class AccountAuthenticationSuccessEventListener implements
 	@Inject
 	AuthenticationEventSharedService authenticationEventSharedService;
 
-	@Inject
-	JodaTimeDateFactory dateFactory;
-
 	@Override
 	public void onApplicationEvent(AuthenticationSuccessEvent event) {
 		LoggedInUser details = (LoggedInUser) event.getAuthentication()
@@ -27,7 +25,7 @@ public class AccountAuthenticationSuccessEventListener implements
 
 		SuccessfulAuthentication successEvent = new SuccessfulAuthentication();
 		successEvent.setUsername(details.getUsername());
-		successEvent.setAuthenticationTimestamp(dateFactory.newDateTime());
+		successEvent.setAuthenticationTimestamp(LocalDateTime.now());
 
 		authenticationEventSharedService.insertSuccessEvent(successEvent);
 	}

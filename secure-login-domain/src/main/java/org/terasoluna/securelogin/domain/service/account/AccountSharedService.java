@@ -1,13 +1,13 @@
 package org.terasoluna.securelogin.domain.service.account;
 
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 
 import org.terasoluna.securelogin.domain.model.Account;
 
 public interface AccountSharedService {
 	Account findOne(String username);
 
-	DateTime getLastLoginDate(String username);
+	LocalDateTime getLastLoginDate(String username);
 
 	boolean isLocked(String username);
 

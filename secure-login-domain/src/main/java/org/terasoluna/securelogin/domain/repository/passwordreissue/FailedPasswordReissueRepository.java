@@ -1,8 +1,8 @@
 package org.terasoluna.securelogin.domain.repository.passwordreissue;
 
-import org.apache.ibatis.annotations.Param;
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 
+import org.apache.ibatis.annotations.Param;
 import org.terasoluna.securelogin.domain.model.FailedPasswordReissue;
 
 public interface FailedPasswordReissueRepository {
@@ -13,5 +13,5 @@ public interface FailedPasswordReissueRepository {
 
 	int deleteByToken(@Param("token") String token);
 
-	int deleteExpired(@Param("date") DateTime date);
+	int deleteExpired(@Param("date") LocalDateTime date);
 }

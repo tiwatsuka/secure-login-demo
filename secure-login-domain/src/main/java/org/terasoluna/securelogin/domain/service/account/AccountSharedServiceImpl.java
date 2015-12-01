@@ -1,17 +1,16 @@
 package org.terasoluna.securelogin.domain.service.account;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
 import org.terasoluna.securelogin.domain.common.message.MessageKeys;
@@ -38,9 +37,6 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 
 	@Inject
 	PasswordEncoder passwordEncoder;
-
-	@Inject
-	JodaTimeDateFactory dateFactory;
 
 	@Value("${security.lockingDuration}")
 	int lockingDuration;
@@ -77,7 +73,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 				.get(lockingThreshold - 1)
 				.getAuthenticationTimestamp()
 				.isBefore(
-						dateFactory.newDateTime().minusSeconds(lockingDuration))) {
+						LocalDateTime.now().minusSeconds(lockingDuration))) {
 			return false;
 		}
 
@@ -105,7 +101,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public DateTime getLastLoginDate(String username) {
+	public LocalDateTime getLastLoginDate(String username) {
 		List<SuccessfulAuthentication> events = authenticationEventSharedService
 				.findLatestSuccessEvents(username, 1);
 
@@ -140,7 +136,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 				.get(0)
 				.getUseFrom()
 				.isBefore(
-						dateFactory.newDateTime()
+						LocalDateTime.now()
 								.minusSeconds(passwordLifeTime))) {
 			return true;
 		}
@@ -154,7 +150,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 		String password = passwordEncoder.encode(rawPassword);
 		boolean result = accountRepository.updatePassword(username, password);
 
-		DateTime passwordChangeDate = dateFactory.newDateTime();
+		LocalDateTime passwordChangeDate = LocalDateTime.now();
 
 		PasswordHistory passwordHistory = new PasswordHistory();
 		passwordHistory.setUsername(username);

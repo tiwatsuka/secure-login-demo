@@ -1,14 +1,14 @@
 package org.terasoluna.securelogin.domain.model;
 
-import lombok.Data;
+import java.time.LocalDateTime;
 
-import org.joda.time.DateTime;
+import lombok.Data;
 
 @Data
 public class FailedPasswordReissue {
 
 	private String token;
 
-	private DateTime attemptDate;
+	private LocalDateTime attemptDate;
 
 }

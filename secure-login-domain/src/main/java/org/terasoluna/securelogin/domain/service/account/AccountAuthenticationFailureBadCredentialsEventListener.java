@@ -1,11 +1,12 @@
 package org.terasoluna.securelogin.domain.service.account;
 
+import java.time.LocalDateTime;
+
 import javax.inject.Inject;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.stereotype.Component;
-import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 import org.terasoluna.securelogin.domain.model.FailedAuthentication;
 import org.terasoluna.securelogin.domain.service.authenticationevent.AuthenticationEventSharedService;
 
@@ -16,9 +17,6 @@ public class AccountAuthenticationFailureBadCredentialsEventListener implements
 	@Inject
 	AuthenticationEventSharedService authenticationEventSharedService;
 
-	@Inject
-	JodaTimeDateFactory dateFactory;
-
 	@Override
 	public void onApplicationEvent(
 			AuthenticationFailureBadCredentialsEvent event) {
@@ -27,7 +25,7 @@ public class AccountAuthenticationFailureBadCredentialsEventListener implements
 
 		FailedAuthentication failureEvents = new FailedAuthentication();
 		failureEvents.setUsername(username);
-		failureEvents.setAuthenticationTimestamp(dateFactory.newDateTime());
+		failureEvents.setAuthenticationTimestamp(LocalDateTime.now());
 
 		authenticationEventSharedService.insertFailureEvent(failureEvents);
 	}

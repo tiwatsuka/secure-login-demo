@@ -5,42 +5,42 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
-import org.joda.time.DateTime;
 
-public class DateTimeTypeHandler extends BaseTypeHandler<DateTime> {
+public class LocalDateTimeTypeHandler extends BaseTypeHandler<LocalDateTime> {
 
 	@Override
-	public DateTime getNullableResult(ResultSet rs, String columnName)
+	public LocalDateTime getNullableResult(ResultSet rs, String columnName)
 			throws SQLException {
 		return toDateTime(rs.getTimestamp(columnName));
 	}
 
 	@Override
-	public DateTime getNullableResult(ResultSet rs, int columnIndex)
+	public LocalDateTime getNullableResult(ResultSet rs, int columnIndex)
 			throws SQLException {
 		return toDateTime(rs.getTimestamp(columnIndex));
 	}
 
 	@Override
-	public DateTime getNullableResult(CallableStatement cs, int columnIndex)
+	public LocalDateTime getNullableResult(CallableStatement cs, int columnIndex)
 			throws SQLException {
 		return toDateTime(cs.getTimestamp(columnIndex));
 	}
 
 	@Override
 	public void setNonNullParameter(PreparedStatement ps, int i,
-			DateTime parameter, JdbcType jdbcType) throws SQLException {
-		ps.setTimestamp(i, new Timestamp(parameter.getMillis()));
+			LocalDateTime parameter, JdbcType jdbcType) throws SQLException {
+		ps.setTimestamp(i, Timestamp.valueOf(parameter));
 	}
 
-	private DateTime toDateTime(Timestamp timestamp) {
+	private LocalDateTime toDateTime(Timestamp timestamp) {
 		if (timestamp == null) {
 			return null;
 		} else {
-			return new DateTime(timestamp.getTime());
+			return timestamp.toLocalDateTime();
 		}
 	}
 

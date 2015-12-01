@@ -1,6 +1,6 @@
 package org.terasoluna.securelogin.domain.model;
 
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -13,5 +13,5 @@ public class PasswordReissueInfo {
 
 	private String secret;
 
-	private DateTime expiryDate;
+	private LocalDateTime expiryDate;
 }

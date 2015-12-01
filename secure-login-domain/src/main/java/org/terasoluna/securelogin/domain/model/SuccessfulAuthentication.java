@@ -1,8 +1,7 @@
 package org.terasoluna.securelogin.domain.model;
 
 import java.io.Serializable;
-
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -12,6 +11,6 @@ public class SuccessfulAuthentication implements Serializable {
 
 	private String username;
 
-	private DateTime authenticationTimestamp;
+	private LocalDateTime authenticationTimestamp;
 
 }

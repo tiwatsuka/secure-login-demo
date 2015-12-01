@@ -1,19 +1,18 @@
 package org.terasoluna.securelogin.domain.service.passwordreissue;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
 
-import org.joda.time.DateTime;
 import org.passay.CharacterRule;
 import org.passay.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
 import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
@@ -43,9 +42,6 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 
 	@Inject
 	AccountSharedService accountSharedService;
-
-	@Inject
-	JodaTimeDateFactory dateFactory;
 
 	@Inject
 	PasswordEncoder passwordEncoder;
@@ -79,7 +75,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 		
 		String token = UUID.randomUUID().toString();
 
-		DateTime expiryDate = dateFactory.newDateTime().plusSeconds(
+		LocalDateTime expiryDate = LocalDateTime.now().plusSeconds(
 				tokenLifeTime);
 
 		PasswordReissueInfo info = new PasswordReissueInfo();
@@ -117,7 +113,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 					MessageKeys.E_SL_PR_5001));
 		}
 
-		if (info.getExpiryDate().isBefore(dateFactory.newDateTime())) {
+		if (info.getExpiryDate().isBefore(LocalDateTime.now())) {
 			throw new BusinessException(ResultMessages.error().add(
 					MessageKeys.E_SL_PR_2001));
 		}
@@ -142,7 +138,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	}
 
 	@Override
-	public boolean removeExpired(DateTime date) {
+	public boolean removeExpired(LocalDateTime date) {
 		failedPasswordReissueRepository.deleteExpired(date);
 		passwordReissueInfoRepository.deleteExpired(date);
 		return true;

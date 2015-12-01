@@ -1,5 +1,8 @@
 package org.terasoluna.securelogin.app.welcome;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.inject.Inject;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,14 +28,21 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = { RequestMethod.GET,
 			RequestMethod.POST })
-	public String home(@AuthenticationPrincipal LoggedInUser userDetails, Model model) {
+	public String home(@AuthenticationPrincipal LoggedInUser userDetails,
+			Model model) {
 
 		Account account = userDetails.getAccount();
 
 		model.addAttribute("account", account);
 		model.addAttribute("isPasswordExpired", accountSharedService
 				.isCurrentPasswordExpired(account.getUsername()));
-
+		
+		LocalDateTime lastLoginDate = userDetails.getLastLoginDate();
+		if (lastLoginDate != null) {
+			model.addAttribute("lastLoginDate", lastLoginDate
+					.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+		}
+		
 		return "welcome/home";
 
 	}

@@ -1,5 +1,6 @@
 package org.terasoluna.securelogin.app.common.validation;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,6 @@ import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.joda.time.DateTime;
 import org.passay.PasswordData;
 import org.passay.PasswordValidator;
 import org.passay.RuleResult;
@@ -16,8 +16,6 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.terasoluna.gfw.common.date.jodatime.JodaTimeDateFactory;
-
 import org.terasoluna.securelogin.domain.model.Account;
 import org.terasoluna.securelogin.domain.model.PasswordHistory;
 import org.terasoluna.securelogin.domain.model.Role;
@@ -35,9 +33,6 @@ public class NotReusedValidator implements
 
 	@Inject
 	PasswordEncoder passwordEncoder;
-
-	@Inject
-	JodaTimeDateFactory dateFactory;
 
 	@Resource(name = "encodedPasswordHistoryValidator")
 	PasswordValidator encodedPasswordHistoryValidator;
@@ -95,7 +90,7 @@ public class NotReusedValidator implements
 
 	private boolean checkHistoricalPassword(String username,
 			String newPassword, ConstraintValidatorContext context) {
-		DateTime useFrom = dateFactory.newDateTime().minusMinutes(
+		LocalDateTime useFrom = LocalDateTime.now().minusMinutes(
 				passwordHistoricalCheckingPeriod);
 		List<PasswordHistory> historyByTime = passwordHistorySharedService
 				.findHistoriesByUseFrom(username, useFrom);
