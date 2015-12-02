@@ -1,5 +1,6 @@
 package org.terasoluna.securelogin.selenium.loginform.page.welcome;
 
+import org.springframework.util.StringUtils;
 import org.terasoluna.securelogin.selenium.WebDriverOperations;
 import org.terasoluna.securelogin.selenium.loginform.page.AuthenticationRequiredPage;
 import org.terasoluna.securelogin.selenium.loginform.page.account.AccountInfoPage;
@@ -34,7 +35,7 @@ public class TopPage extends AuthenticationRequiredPage {
 	}
 	
 	public boolean isExpiredMessageShown(){
-		return webDriverOperations.exists(id("expiredMessage"));
+		return StringUtils.hasText(getExpiredMessage());
 	}
 
 	public UnlockPage goToUnlockPage() {

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.terasoluna.gfw.common.message.ResultMessages;
 import org.terasoluna.securelogin.domain.model.Account;
 import org.terasoluna.securelogin.domain.service.account.AccountSharedService;
 import org.terasoluna.securelogin.domain.service.userdetails.LoggedInUser;
@@ -34,8 +35,11 @@ public class HomeController {
 		Account account = userDetails.getAccount();
 
 		model.addAttribute("account", account);
-		model.addAttribute("isPasswordExpired", accountSharedService
-				.isCurrentPasswordExpired(account.getUsername()));
+		
+		if(accountSharedService.isCurrentPasswordExpired(account.getUsername())){
+			ResultMessages messages = ResultMessages.warning().add("w.sl.pe.0001");
+			model.addAttribute(messages);
+		}
 		
 		LocalDateTime lastLoginDate = userDetails.getLastLoginDate();
 		if (lastLoginDate != null) {

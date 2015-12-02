@@ -8,12 +8,9 @@
 </head>
 <body>
 	<div id="wrapper">
-		<c:if test="${f:h(isPasswordExpired)}">
-			<span id="expiredMessage">
-			Your password has expired. Please change.
-			</span>
-    	</c:if>
-
+		<span id="expiredMessage">
+			<t:messagesPanel />
+		</span>
 		<h1>Hello world!</h1>
 
 		<p>Welcome ${f:h(account.firstName)} ${f:h(account.lastName)}</p>
