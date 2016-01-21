@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.inject.Inject;
 
-import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.stereotype.Component;
 import org.terasoluna.securelogin.domain.model.SuccessfulAuthentication;
@@ -12,13 +12,12 @@ import org.terasoluna.securelogin.domain.service.authenticationevent.Authenticat
 import org.terasoluna.securelogin.domain.service.userdetails.LoggedInUser;
 
 @Component
-public class AccountAuthenticationSuccessEventListener implements
-		ApplicationListener<AuthenticationSuccessEvent> {
+public class AccountAuthenticationSuccessEventListener{
 
 	@Inject
 	AuthenticationEventSharedService authenticationEventSharedService;
 
-	@Override
+	@EventListener
 	public void onApplicationEvent(AuthenticationSuccessEvent event) {
 		LoggedInUser details = (LoggedInUser) event.getAuthentication()
 				.getPrincipal();
