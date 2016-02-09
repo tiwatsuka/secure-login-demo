@@ -1,0 +1,8 @@
+{
+    "createList":[
+        {"source":"//*[local-name()='interceptor' and bean/@class='org.terasoluna.securelogin.app.common.interceptor.PasswordExpirationCheckInterceptor']", "target":"//*[local-name()='interceptors']"},
+        {"source":"//*[local-name()='view-controller']", "target":"//beans"}
+    ],
+    "updateList":[],
+    "deleteList":[]
+}

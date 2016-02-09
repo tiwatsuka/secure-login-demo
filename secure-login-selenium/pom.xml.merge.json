@@ -1,0 +1,10 @@
+{
+    "createList":[
+        {"source":"//dependency[artifactId='hamcrest-library']", "target":"//dependencies"},
+        {"source":"//dependency[artifactId='postgresql']", "target":"//dependencies"},
+        {"source":"//dependency[artifactId='terasoluna-gfw-web']", "target":"//dependencies"},
+        {"source":"//dependency[artifactId='h2']", "target":"//dependencies"}
+    ],
+    "updateList":[],
+    "deleteList":[]
+}

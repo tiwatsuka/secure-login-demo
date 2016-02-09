@@ -1,0 +1,29 @@
+{
+    "createList":[
+        {"source": "//bean[@id='realDataSource']", "target": "/beans"},
+        {"source": "//bean[@id='dataSource']", "target": "/beans"},
+        {"source": "//bean[@id='realDataSourceForLogging']", "target": "/beans"},
+        {"source": "//bean[@id='dataSourceForLogging']", "target": "/beans"},
+        {"source": "//bean[@id='transactionManager']", "target": "/beans"},
+        {"source": "//*[local-name()='annotation-driven']", "target": "/beans"},
+        {"source": "//bean[@id='dbResetScript']", "target": "/beans"},
+        {"source": "//bean[@id='resourceDatabasePopulator']", "target": "/beans"},
+        {"source": "//bean[@id='restOperations']", "target": "/beans"},
+        {"source": "//bean[@id='dbLogAssertOperations']", "target": "/beans"},
+        {"source": "//bean[@id='screenCapture']", "target": "/beans"},
+        {"source": "//bean[@id='dbLog']", "target": "/beans"},
+        {"source": "//bean[@id='pageSource']", "target": "/beans"},
+        {"source": "//bean[@id='dbLogCleaner']", "target": "/beans"},
+        {"source": "//bean[@class='org.terasoluna.securelogin.selenium.WebDriverCreator']", "target": "/beans"},
+        {"source": "//beans[@profile='firefox default']", "target": "/beans"},
+        {"source": "//beans[@profile='chrome']", "target": "/beans"},
+        {"source": "//beans[@profile='ie']", "target": "/beans"}
+        
+    ],
+    "updateList":[
+        {"path": "/beans"}
+    ],
+    "deleteList":[
+        "//bean[@id='webDriver']"
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "createList":[
+        {"source":"//bean[@id='logoutSuccessHandler']", "target":"//beans"}
+    ],
+    "updateList":[
+        {"path":"//*[local-name()='http'][last()]", "recursive":true},
+        {"path":"//*[local-name()='authentication-manager']", "recursive":true}
+    ],
+    "deleteList":[]
+}

@@ -1,0 +1,10 @@
+{
+    "createList":[
+        {"source":"//dependency[artifactId='postgresql']", "target": "/project/dependencyManagement/dependencies"}
+    ],
+    "updateList":[
+        {"path":"/project/properties/java-version", "recursive" : true}
+    ],
+    "deleteList":[
+    ]
+}

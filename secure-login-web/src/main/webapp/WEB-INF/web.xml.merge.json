@@ -1,0 +1,13 @@
+{
+    "createList":[
+        {"source":"//servlet[servlet-name='H2Console']", "target":"//web-app"},
+        {"source":"//servlet-mapping[servlet-name='H2Console']", "target":"//web-app"},
+        {"source":"//listener[listener-class='org.h2.server.web.DbStarter']", "target":"//web-app"},
+        {"source":"//context-param[param-name='db.url']", "target":"//web-app"},
+        {"source":"//context-param[param-name='db.user']", "target":"//web-app"},
+        {"source":"//context-param[param-name='db.password']", "target":"//web-app"},
+        {"source":"//context-param[param-name='db.tcpServer']", "target":"//web-app"}
+    ],
+    "updateList":[],
+    "deleteList":[]
+}

@@ -1,0 +1,27 @@
+{
+    "createList":[
+        {"source":"//bean[@id='lengthRule']", "target":"//beans"},
+        {"source":"//bean[@id='upperCaseRule']", "target":"//beans"},
+        {"source":"//bean[@id='lowerCaseRule']", "target":"//beans"},
+        {"source":"//bean[@id='digitRule']", "target":"//beans"},
+        {"source":"//bean[@id='specialCharacterRule']", "target":"//beans"},
+        {"source":"//bean[@id='characterCharacteristicsRule']", "target":"//beans"},
+        {"source":"//bean[@id='usernameRule']", "target":"//beans"},
+        {"source":"//bean[@id='encodedPasswordHistoryRule']", "target":"//beans"},
+        {"source":"//bean[@id='characteristicPasswordValidator']", "target":"//beans"},
+        {"source":"//bean[@id='encodedPasswordHistoryValidator']", "target":"//beans"},
+        {"source":"//bean[@id='passwordGenerator']", "target":"//beans"},
+        {"source":"//bean[@id='passwordGenerationRules']", "target":"//beans"},
+        {"source":"//bean[@id='expiredReissueInfoCleaner']", "target":"//beans"},
+        {"source":"//*[local-name()='scheduler']", "target":"//beans"},
+        {"source":"//*[local-name()='scheduled-tasks']", "target":"//beans"}
+    ],
+    "updateList":[
+        {"path":"//beans"},
+        {"path":"//entry[@key='ResourceNotFoundException']"},
+        {"path":"//entry[@key='InvalidTransactionTokenException']"},
+        {"path":"//entry[@key='BusinessException']"},
+        {"path":"//property[@name='defaultExceptionCode']"}
+    ],
+    "deleteList":[]
+}

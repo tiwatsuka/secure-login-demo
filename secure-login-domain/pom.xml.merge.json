@@ -1,0 +1,10 @@
+{
+    "createList":[
+        {"source":"//dependency[artifactId='lombok']","target":"//dependencies"},
+        {"source":"//dependency[artifactId='passay']","target":"//dependencies"},
+        {"source":"//dependency[artifactId='javax.mail']","target":"//dependencies"},
+        {"source":"//dependency[artifactId='greenmail-spring']","target":"//dependencies"}
+    ],
+    "updateList":[],
+    "deleteList":[]
+}

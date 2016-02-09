@@ -1,0 +1,9 @@
+{
+    "createList":[
+        {"source":"//dependency[artifactId='lombok']","target":"/project/dependencies"},
+        {"source":"//dependency[artifactId='passay']","target":"/project/dependencies"}
+    ],
+    "updateList":[
+    ],
+    "deleteList":[]
+}

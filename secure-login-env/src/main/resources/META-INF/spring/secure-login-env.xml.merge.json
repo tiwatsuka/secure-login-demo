@@ -1,0 +1,15 @@
+{
+    "createList":[
+        {"source": "//bean[@id='mailSender']", "target": "//beans"},
+        {"source": "//bean[@id='tamplateMessage']", "target": "//beans"},
+        {"source": "//*[local-name()='annotation-driven']", "target": "//beans"},
+        {"source": "//bean[@id='cacheManager']", "target": "//beans"},
+        {"source": "//bean[@id='greenMailBean']", "target": "//beans"}
+    ],
+    "updateList":[
+        {"path": "//beans"}
+    ],
+    "deleteList":[
+        "//*[local-name()='initialize-database']"
+    ]
+}

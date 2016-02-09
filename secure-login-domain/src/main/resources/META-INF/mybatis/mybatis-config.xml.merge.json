@@ -1,0 +1,8 @@
+{
+    "createList":[
+        {"source":"//package[@name='org.terasoluna.securelogin.infra.mybatis.typehandler']","target":"//typeAliases"},
+        {"source":"//package[@name='org.terasoluna.securelogin.infra.mybatis.typehandler']","target":"//typeHandlers"}
+    ],
+    "updateList":[],
+    "deleteList":[]
+}
