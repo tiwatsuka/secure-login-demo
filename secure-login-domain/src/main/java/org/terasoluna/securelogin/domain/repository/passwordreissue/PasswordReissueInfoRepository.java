@@ -8,7 +8,7 @@ import org.terasoluna.securelogin.domain.model.PasswordReissueInfo;
 
 public interface PasswordReissueInfoRepository {
 
-	int create(PasswordReissueInfo info);
+	void create(PasswordReissueInfo info);
 
 	PasswordReissueInfo findOne(@Param("token") String token);
 

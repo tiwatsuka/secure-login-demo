@@ -5,5 +5,5 @@ INSERT INTO account(username, password, first_name, last_name, email) VALUES('ad
 
 INSERT INTO role (username, role) VALUES ('demo', 'USER');
 INSERT INTO role (username, role) VALUES ('admin', 'USER');
-INSERT INTO role (username, role) VALUES ('admin', 'ADMN');
+INSERT INTO role (username, role) VALUES ('admin', 'ADMIN');
 COMMIT;

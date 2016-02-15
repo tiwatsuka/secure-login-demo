@@ -22,7 +22,7 @@ import org.terasoluna.securelogin.domain.model.PasswordReissueInfo;
 import org.terasoluna.securelogin.domain.repository.passwordreissue.FailedPasswordReissueRepository;
 import org.terasoluna.securelogin.domain.repository.passwordreissue.PasswordReissueInfoRepository;
 import org.terasoluna.securelogin.domain.service.account.AccountSharedService;
-import org.terasoluna.securelogin.domain.service.mail.MailSharedService;
+import org.terasoluna.securelogin.domain.service.mail.PasswordReissueMailSharedService;
 
 @Service
 @Transactional
@@ -35,7 +35,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	PasswordReissueFailureSharedService passwordReissueFailureSharedService;
 
 	@Inject
-	MailSharedService mailSharedService;
+	PasswordReissueMailSharedService mailSharedService;
 
 	@Inject
 	PasswordReissueInfoRepository passwordReissueInfoRepository;
@@ -67,14 +67,14 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	@Value("${app.passwordReissueProtocol}")
 	String protocol;
 
-	@Override
-	public String createRawSecret() {
-		return passwordGenerator.generatePassword(10, passwordGenerationRules);
-	}
+	@Value("${security.tokenValidityThreshold}")
+	int tokenValidityThreshold;
 
 	@Override
-	public boolean saveAndSendReissueInfo(String username, String rowSecret) {
+	public String createAndSendReissueInfo(String username) {
 		Account account = accountSharedService.findOne(username);
+		
+		String rowSecret = passwordGenerator.generatePassword(10, passwordGenerationRules);
 
 		String token = UUID.randomUUID().toString();
 
@@ -87,19 +87,17 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 		info.setSecret(passwordEncoder.encode(rowSecret));
 		info.setExpiryDate(expiryDate);
 
-		int count = passwordReissueInfoRepository.create(info);
+		passwordReissueInfoRepository.create(info);
 
-		if (count > 0) {
-			String passwordResetUrl = protocol + "://" + hostAndPort
-					+ contextPath + "/reissue/resetpassword/?form&username="
-					+ info.getUsername() + "&token=" + info.getToken();
+		String passwordResetUrl = protocol + "://" + hostAndPort
+				+ contextPath + "/reissue/resetpassword/?form&username="
+				+ info.getUsername() + "&token=" + info.getToken();
 
-			mailSharedService.send(account.getEmail(), passwordResetUrl);
+		mailSharedService.send(account.getEmail(), passwordResetUrl);
 
-			return true;
-		} else {
-			return false;
-		}
+		
+		return rowSecret;
+
 	}
 
 	@Override
@@ -119,6 +117,13 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 		if (info.getExpiryDate().isBefore(dateFactory.newTimestamp().toLocalDateTime())) {
 			throw new BusinessException(ResultMessages.error().add(
 					MessageKeys.E_SL_PR_2001));
+		}
+		
+		int count = failedPasswordReissueRepository
+				.countByToken(token);
+		if (count >= tokenValidityThreshold) {
+			throw new BusinessException(ResultMessages.error().add(
+					MessageKeys.E_SL_PR_5001));
 		}
 
 		return info;

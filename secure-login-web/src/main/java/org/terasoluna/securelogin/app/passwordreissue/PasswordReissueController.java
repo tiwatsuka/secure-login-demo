@@ -36,11 +36,8 @@ public class PasswordReissueController {
 			return showCreateReissueInfoForm(form);
 		}
 
-		String rawSecret = passwordReissueService.createRawSecret();
-
 		try {
-			passwordReissueService.saveAndSendReissueInfo(form.getUsername(),
-					rawSecret);
+			String rawSecret = passwordReissueService.createAndSendReissueInfo(form.getUsername());
 			attributes.addFlashAttribute("secret", rawSecret);
 			return "redirect:/reissue/create?complete";
 		} catch (ResourceNotFoundException e) {

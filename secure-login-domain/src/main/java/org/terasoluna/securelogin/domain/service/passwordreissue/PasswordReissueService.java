@@ -6,9 +6,7 @@ import org.terasoluna.securelogin.domain.model.PasswordReissueInfo;
 
 public interface PasswordReissueService {
 
-	String createRawSecret();
-
-	boolean saveAndSendReissueInfo(String username, String rowSecret);
+	String createAndSendReissueInfo(String username);
 
 	PasswordReissueInfo findOne(String username, String token);
 

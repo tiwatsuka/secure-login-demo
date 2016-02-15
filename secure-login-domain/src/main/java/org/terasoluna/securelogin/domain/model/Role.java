@@ -1,7 +1,7 @@
 package org.terasoluna.securelogin.domain.model;
 
 public enum Role {
-	ADMN("administrator"), USER("user");
+	ADMIN("administrator"), USER("user");
 
 	private final String roleLabel;
 

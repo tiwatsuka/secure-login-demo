@@ -31,8 +31,8 @@ public class AccountLockTest extends FunctionTestSupport {
 	@Value("${security.lockingThreshold}")
 	int lockingThreshold;
 
-	@Value("${security.lockingDuration}")
-	int lockingDuration;
+	@Value("${security.lockingDurationSeconds}")
+	int lockingDurationSeconds;
 
 	@Inject
 	@Named("dataSource")
@@ -64,7 +64,7 @@ public class AccountLockTest extends FunctionTestSupport {
 		assertThat(((LoginPage) page).getLoginError(),
 				is("User account is locked"));
 
-		webDriverOperations.suspend(lockingDuration, TimeUnit.SECONDS);
+		webDriverOperations.suspend(lockingDurationSeconds, TimeUnit.SECONDS);
 		page = ((LoginPage) page).loginSuccessIntercepted("demo", "demo");
 		assertTrue(webDriverOperations.getCurrentUrl().endsWith(
 				"/password?form"));

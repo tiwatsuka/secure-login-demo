@@ -42,8 +42,8 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 	@Inject
 	DefaultClassicDateFactory dateFactory;
 
-	@Value("${security.lockingDuration}")
-	int lockingDuration;
+	@Value("${security.lockingDurationSeconds}")
+	int lockingDurationSeconds;
 
 	@Value("${security.lockingThreshold}")
 	int lockingThreshold;
@@ -78,7 +78,7 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 				.getAuthenticationTimestamp()
 				.isBefore(
 						dateFactory.newTimestamp().toLocalDateTime()
-								.minusSeconds(lockingDuration))) {
+								.minusSeconds(lockingDurationSeconds))) {
 			return false;
 		}
 

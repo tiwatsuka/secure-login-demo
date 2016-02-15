@@ -75,7 +75,7 @@ public class NotReusedPasswordValidator implements
 
 		boolean result = checkNewPasswordDifferentFromCurrentPassword(
 				newPassword, currentPassword, context);
-		if (result && account.getRoles().contains(Role.ADMN)) {
+		if (result && account.getRoles().contains(Role.ADMIN)) {
 			result = checkHistoricalPassword(username, newPassword, context);
 		}
 

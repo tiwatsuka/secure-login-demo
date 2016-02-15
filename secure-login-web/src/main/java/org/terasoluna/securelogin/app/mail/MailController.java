@@ -10,13 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.terasoluna.securelogin.domain.model.ReceivedMail;
-import org.terasoluna.securelogin.domain.service.mail.MailSharedService;
+import org.terasoluna.securelogin.domain.service.mail.PasswordReissueMailSharedService;
 
 @Controller
 public class MailController {
 	
 	@Inject
-	MailSharedService mailSharedService;
+	PasswordReissueMailSharedService mailSharedService;
 	
 	@Inject
 	Mapper beanMapper;

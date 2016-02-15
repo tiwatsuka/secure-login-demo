@@ -12,7 +12,7 @@
 		<t:messagesPanel />
 		<form:form
 			action="${f:h(pageContext.request.contextPath)}/reissue/create"
-			method="Post" modelAttribute="createReissueInfoForm">
+			method="post" modelAttribute="createReissueInfoForm">
 			<table>
 				<tr>
 					<th><form:label path="username" cssErrorClass="error-label">Username</form:label>

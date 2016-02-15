@@ -19,7 +19,7 @@ import org.terasoluna.securelogin.domain.model.ReceivedMail;
 import com.icegreen.greenmail.spring.GreenMailBean;
 
 @Service
-public class MailSharedServiceImpl implements MailSharedService {
+public class PasswordReissueMailSharedServiceImpl implements PasswordReissueMailSharedService {
 
 	@Inject
 	JavaMailSender mailSender;

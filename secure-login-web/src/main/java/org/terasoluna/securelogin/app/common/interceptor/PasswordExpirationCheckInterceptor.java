@@ -30,7 +30,7 @@ public class PasswordExpirationCheckInterceptor extends
 			Object principal = authentication.getPrincipal();
 			if (principal instanceof UserDetails) {
 				LoggedInUser userDetails = (LoggedInUser) principal;
-				if ((userDetails.getAccount().getRoles().contains(Role.ADMN) && accountSharedService
+				if ((userDetails.getAccount().getRoles().contains(Role.ADMIN) && accountSharedService
 						.isCurrentPasswordExpired(userDetails.getUsername()))
 						|| accountSharedService.isInitialPassword(userDetails
 								.getUsername())) {

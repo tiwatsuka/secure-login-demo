@@ -165,7 +165,7 @@ public class PasswordReissueTest extends FunctionTestSupport {
 					"Hoge2", "Hoge2");
 		}
 		assertThat(webDriverOperations.getTitle(),
-				is("Resource Not Found Error!"));
+				is("Bussiness Error!"));
 	}
 
 	/**

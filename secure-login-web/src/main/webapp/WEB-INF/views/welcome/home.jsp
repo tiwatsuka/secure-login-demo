@@ -25,13 +25,13 @@
 			<button id="logout">Logout</button>
 		</form:form>
 
-		<form:form action="${f:h(pageContext.request.contextPath)}/account">
+		<form:form action="${f:h(pageContext.request.contextPath)}/account" method="get">
 			<button id="info">Account Information</button>
 		</form:form>
 
 		<sec:authorize url="/unlock">
 			<form:form
-				action="${f:h(pageContext.request.contextPath)}/unlock?form">
+				action="${f:h(pageContext.request.contextPath)}/unlock?form" method="get">
 				<button id="unlock">Unlock Account</button>
 			</form:form>
 		</sec:authorize>
