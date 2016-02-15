@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Resource;
 import javax.inject.Inject;
 
 import org.passay.CharacterRule;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.terasoluna.gfw.common.date.ClassicDateFactory;
 import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessages;
@@ -27,6 +27,9 @@ import org.terasoluna.securelogin.domain.service.mail.MailSharedService;
 @Service
 @Transactional
 public class PasswordReissueServiceImpl implements PasswordReissueService {
+
+	@Inject
+	ClassicDateFactory dateFactory;
 
 	@Inject
 	PasswordReissueFailureSharedService passwordReissueFailureSharedService;
@@ -49,11 +52,11 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	@Inject
 	PasswordGenerator passwordGenerator;
 
-	@Resource(name = "passwordGenerationRules")
+	@Inject
 	List<CharacterRule> passwordGenerationRules;
 
-	@Value("${security.tokenLifeTime}")
-	int tokenLifeTime;
+	@Value("${security.tokenLifeTimeSeconds}")
+	int tokenLifeTimeSeconds;
 
 	@Value("${app.hostAndPort}")
 	String hostAndPort;
@@ -72,19 +75,19 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	@Override
 	public boolean saveAndSendReissueInfo(String username, String rowSecret) {
 		Account account = accountSharedService.findOne(username);
-		
+
 		String token = UUID.randomUUID().toString();
 
-		LocalDateTime expiryDate = LocalDateTime.now().plusSeconds(
-				tokenLifeTime);
+		LocalDateTime expiryDate = dateFactory.newTimestamp().toLocalDateTime()
+				.plusSeconds(tokenLifeTimeSeconds);
 
 		PasswordReissueInfo info = new PasswordReissueInfo();
 		info.setUsername(username);
 		info.setToken(token);
 		info.setSecret(passwordEncoder.encode(rowSecret));
 		info.setExpiryDate(expiryDate);
-		
-		int count = passwordReissueInfoRepository.insert(info);
+
+		int count = passwordReissueInfoRepository.create(info);
 
 		if (count > 0) {
 			String passwordResetUrl = protocol + "://" + hostAndPort
@@ -113,7 +116,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 					MessageKeys.E_SL_PR_5001));
 		}
 
-		if (info.getExpiryDate().isBefore(LocalDateTime.now())) {
+		if (info.getExpiryDate().isBefore(dateFactory.newTimestamp().toLocalDateTime())) {
 			throw new BusinessException(ResultMessages.error().add(
 					MessageKeys.E_SL_PR_2001));
 		}

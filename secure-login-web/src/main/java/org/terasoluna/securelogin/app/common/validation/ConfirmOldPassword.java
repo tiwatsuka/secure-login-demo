@@ -20,7 +20,7 @@ public @interface ConfirmOldPassword {
 
 	Class<?>[] groups() default {};
 
-	String idPropertyName();
+	String usernamePropertyName();
 
 	String oldPasswordPropertyName();
 

@@ -19,7 +19,7 @@ public class PasswordHistorySharedServiceImpl implements
 	PasswordHistoryRepository passwordHistoryRepository;
 
 	public int insert(PasswordHistory history) {
-		return passwordHistoryRepository.insert(history);
+		return passwordHistoryRepository.create(history);
 	}
 
 	@Transactional(readOnly = true)
@@ -30,8 +30,8 @@ public class PasswordHistorySharedServiceImpl implements
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<PasswordHistory> findLatestHistories(String username, int limit) {
-		return passwordHistoryRepository.findLatestHistories(username, limit);
+	public List<PasswordHistory> findLatest(String username, int limit) {
+		return passwordHistoryRepository.findLatest(username, limit);
 	}
 
 }

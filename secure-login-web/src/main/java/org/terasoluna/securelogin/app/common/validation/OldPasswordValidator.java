@@ -28,7 +28,7 @@ public class OldPasswordValidator implements
 
 	@Override
 	public void initialize(ConfirmOldPassword constraintAnnotation) {
-		usernamePropertyName = constraintAnnotation.idPropertyName();
+		usernamePropertyName = constraintAnnotation.usernamePropertyName();
 		oldPasswordPropertyName = constraintAnnotation.oldPasswordPropertyName();
 		message = constraintAnnotation.message();
 	}

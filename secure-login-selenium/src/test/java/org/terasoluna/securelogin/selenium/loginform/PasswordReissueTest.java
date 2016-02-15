@@ -38,8 +38,8 @@ public class PasswordReissueTest extends FunctionTestSupport {
 	@Value("${security.tokenValidityThreshold}")
 	int tokenValidityThreshold;
 
-	@Value("${security.tokenLifeTime}")
-	int tokenLifeTime;
+	@Value("${security.tokenLifeTimeSeconds}")
+	int tokenLifeTimeSeconds;
 
 	@Inject
 	@Named("dataSource")
@@ -185,7 +185,7 @@ public class PasswordReissueTest extends FunctionTestSupport {
 		String mailText = ((ReceivedMailPage)page).getLatestMailText();
 		String url = mailText.substring(mailText.indexOf("http"));
 
-		webDriverOperations.suspend(tokenLifeTime, TimeUnit.SECONDS);
+		webDriverOperations.suspend(tokenLifeTimeSeconds, TimeUnit.SECONDS);
 
 		// confirm that the URL is invalidated by passage of time
 		page = new PasswordReissuePage(webDriverOperations,

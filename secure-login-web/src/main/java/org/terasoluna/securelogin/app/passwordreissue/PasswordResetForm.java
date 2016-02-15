@@ -1,6 +1,8 @@
 package org.terasoluna.securelogin.app.passwordreissue;
 
-import org.terasoluna.securelogin.app.common.validation.NotReused;
+import java.io.Serializable;
+
+import org.terasoluna.securelogin.app.common.validation.NotReusedPassword;
 import org.terasoluna.securelogin.app.common.validation.StrongPassword;
 import org.terasoluna.securelogin.app.common.validation.Confirm;
 
@@ -8,9 +10,11 @@ import lombok.Data;
 
 @Data
 @Confirm(propertyName = "newPassword")
-@StrongPassword(idPropertyName = "username", newPasswordPropertyName = "newPassword")
-@NotReused(idPropertyName = "username", newPasswordPropertyName = "newPassword")
-public class PasswordResetForm {
+@StrongPassword(usernamePropertyName = "username", newPasswordPropertyName = "newPassword")
+@NotReusedPassword(usernamePropertyName = "username", newPasswordPropertyName = "newPassword")
+public class PasswordResetForm implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String username;
 

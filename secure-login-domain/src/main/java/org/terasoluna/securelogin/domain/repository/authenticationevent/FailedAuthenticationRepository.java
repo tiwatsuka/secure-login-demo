@@ -8,9 +8,9 @@ import org.terasoluna.securelogin.domain.model.FailedAuthentication;
 
 public interface FailedAuthenticationRepository {
 
-	int insert(FailedAuthentication accountAuthenticationLog);
+	int create(FailedAuthentication event);
 
-	List<FailedAuthentication> findLatestEvents(
+	List<FailedAuthentication> findLatest(
 			@Param("username") String username, @Param("count") long count);
 
 	int deleteByUsername(@Param("username") String username);

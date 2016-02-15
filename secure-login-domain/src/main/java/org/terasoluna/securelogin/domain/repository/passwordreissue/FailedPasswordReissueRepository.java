@@ -9,7 +9,7 @@ public interface FailedPasswordReissueRepository {
 
 	int countByToken(@Param("token") String token);
 
-	int insert(FailedPasswordReissue event);
+	int create(FailedPasswordReissue event);
 
 	int deleteByToken(@Param("token") String token);
 

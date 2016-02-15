@@ -12,6 +12,6 @@ public interface PasswordHistorySharedService {
 	List<PasswordHistory> findHistoriesByUseFrom(String username,
 			LocalDateTime useFrom);
 
-	List<PasswordHistory> findLatestHistories(String username, int limit);
+	List<PasswordHistory> findLatest(String username, int limit);
 
 }

@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -16,14 +16,18 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.terasoluna.gfw.common.date.ClassicDateFactory;
 import org.terasoluna.securelogin.domain.model.Account;
 import org.terasoluna.securelogin.domain.model.PasswordHistory;
 import org.terasoluna.securelogin.domain.model.Role;
 import org.terasoluna.securelogin.domain.service.account.AccountSharedService;
 import org.terasoluna.securelogin.domain.service.passwordhistory.PasswordHistorySharedService;
 
-public class NotReusedValidator implements
-		ConstraintValidator<NotReused, Object> {
+public class NotReusedPasswordValidator implements
+		ConstraintValidator<NotReusedPassword, Object> {
+
+	@Inject
+	ClassicDateFactory dateFactory;
 
 	@Inject
 	AccountSharedService accountSharedService;
@@ -34,7 +38,8 @@ public class NotReusedValidator implements
 	@Inject
 	PasswordEncoder passwordEncoder;
 
-	@Resource(name = "encodedPasswordHistoryValidator")
+	@Inject
+	@Named("encodedPasswordHistoryValidator")
 	PasswordValidator encodedPasswordHistoryValidator;
 
 	@Value("${security.passwordHistoricalCheckingCount}")
@@ -50,28 +55,31 @@ public class NotReusedValidator implements
 	private String message;
 
 	@Override
-	public void initialize(NotReused constraintAnnotation) {
-		usernamePropertyName = constraintAnnotation.idPropertyName();
-		newPasswordPropertyName = constraintAnnotation.newPasswordPropertyName();
+	public void initialize(NotReusedPassword constraintAnnotation) {
+		usernamePropertyName = constraintAnnotation.usernamePropertyName();
+		newPasswordPropertyName = constraintAnnotation
+				.newPasswordPropertyName();
 		message = constraintAnnotation.message();
 	}
 
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
 		BeanWrapper beanWrapper = new BeanWrapperImpl(value);
-		String username = (String) beanWrapper.getPropertyValue(usernamePropertyName);
+		String username = (String) beanWrapper
+				.getPropertyValue(usernamePropertyName);
 		String newPassword = (String) beanWrapper
 				.getPropertyValue(newPasswordPropertyName);
 
 		Account account = accountSharedService.findOne(username);
 		String currentPassword = account.getPassword();
 
-		context.disableDefaultConstraintViolation();
 		boolean result = checkNewPasswordDifferentFromCurrentPassword(
 				newPassword, currentPassword, context);
 		if (result && account.getRoles().contains(Role.ADMN)) {
 			result = checkHistoricalPassword(username, newPassword, context);
 		}
+
+		context.disableDefaultConstraintViolation();
 
 		return result;
 	}
@@ -83,19 +91,20 @@ public class NotReusedValidator implements
 			return true;
 		} else {
 			context.buildConstraintViolationWithTemplate(message)
-					.addPropertyNode(newPasswordPropertyName).addConstraintViolation();
+					.addPropertyNode(newPasswordPropertyName)
+					.addConstraintViolation();
 			return false;
 		}
 	}
 
 	private boolean checkHistoricalPassword(String username,
 			String newPassword, ConstraintValidatorContext context) {
-		LocalDateTime useFrom = LocalDateTime.now().minusMinutes(
-				passwordHistoricalCheckingPeriod);
+		LocalDateTime useFrom = dateFactory.newTimestamp().toLocalDateTime()
+				.minusMinutes(passwordHistoricalCheckingPeriod);
 		List<PasswordHistory> historyByTime = passwordHistorySharedService
 				.findHistoriesByUseFrom(username, useFrom);
 		List<PasswordHistory> historyByCount = passwordHistorySharedService
-				.findLatestHistories(username, passwordHistoricalCheckingCount);
+				.findLatest(username, passwordHistoricalCheckingCount);
 		List<PasswordHistory> history = historyByCount.size() > historyByTime
 				.size() ? historyByCount : historyByTime;
 
@@ -115,7 +124,8 @@ public class NotReusedValidator implements
 		} else {
 			context.buildConstraintViolationWithTemplate(
 					encodedPasswordHistoryValidator.getMessages(result).get(0))
-					.addPropertyNode(newPasswordPropertyName).addConstraintViolation();
+					.addPropertyNode(newPasswordPropertyName)
+					.addConstraintViolation();
 			return false;
 		}
 	}

@@ -20,7 +20,7 @@ public @interface StrongPassword {
 
 	Class<?>[] groups() default {};
 
-	String idPropertyName();
+	String usernamePropertyName();
 
 	String newPasswordPropertyName();
 

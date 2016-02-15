@@ -26,25 +26,25 @@ public class AuthenticationEventSharedServiceImpl implements
 	@Override
 	public List<SuccessfulAuthentication> findLatestSuccessEvents(
 			String username, int count) {
-		return successAuthenticationRepository.findLatestEvents(username, count);
+		return successAuthenticationRepository.findLatest(username, count);
 	}
 
 	@Transactional(readOnly = true)
 	@Override
 	public List<FailedAuthentication> findLatestFailureEvents(
 			String username, int count) {
-		return failedAuthenticationRepository.findLatestEvents(username, count);
+		return failedAuthenticationRepository.findLatest(username, count);
 	}
 
 	@Override
 	public int authenticationSuccess(SuccessfulAuthentication event) {
 		deleteFailureEventByUsername(event.getUsername());
-		return successAuthenticationRepository.insert(event);
+		return successAuthenticationRepository.create(event);
 	}
 
 	@Override
 	public int authenticationFailure(FailedAuthentication event) {
-		return failedAuthenticationRepository.insert(event);
+		return failedAuthenticationRepository.create(event);
 	}
 
 	@Override

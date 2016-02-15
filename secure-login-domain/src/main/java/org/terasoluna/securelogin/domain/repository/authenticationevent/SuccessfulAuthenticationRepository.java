@@ -8,8 +8,8 @@ import org.terasoluna.securelogin.domain.model.SuccessfulAuthentication;
 
 public interface SuccessfulAuthenticationRepository {
 
-	int insert(SuccessfulAuthentication accountAuthenticationLog);
+	int create(SuccessfulAuthentication event);
 
-	List<SuccessfulAuthentication> findLatestEvents(
+	List<SuccessfulAuthentication> findLatest(
 			@Param("username") String username, @Param("count") long count);
 }

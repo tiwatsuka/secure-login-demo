@@ -1,6 +1,7 @@
 package org.terasoluna.securelogin.app.common.validation;
 
-import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -13,7 +14,8 @@ import org.springframework.beans.BeanWrapperImpl;
 public class StrongPasswordValidator implements
 		ConstraintValidator<StrongPassword, Object> {
 
-	@Resource(name = "characteristicPasswordValidator")
+	@Inject
+	@Named("characteristicPasswordValidator")
 	PasswordValidator characteristicPasswordValidator;
 
 	private String usernamePropertyName;
@@ -22,7 +24,7 @@ public class StrongPasswordValidator implements
 
 	@Override
 	public void initialize(StrongPassword constraintAnnotation) {
-		usernamePropertyName = constraintAnnotation.idPropertyName();
+		usernamePropertyName = constraintAnnotation.usernamePropertyName();
 		newPasswordPropertyName = constraintAnnotation
 				.newPasswordPropertyName();
 	}
@@ -35,10 +37,11 @@ public class StrongPasswordValidator implements
 		String newPassword = (String) beanWrapper
 				.getPropertyValue(newPasswordPropertyName);
 
-		context.disableDefaultConstraintViolation();
-
 		RuleResult result = characteristicPasswordValidator
 				.validate(PasswordData.newInstance(newPassword, username, null));
+
+		context.disableDefaultConstraintViolation();
+
 		if (result.isValid()) {
 			return true;
 		} else {

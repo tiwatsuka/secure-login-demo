@@ -12,15 +12,15 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Documented
-@Constraint(validatedBy = { NotReusedValidator.class })
+@Constraint(validatedBy = { NotReusedPasswordValidator.class })
 @Target({ TYPE, ANNOTATION_TYPE })
 @Retention(RUNTIME)
-public @interface NotReused {
-	String message() default "{org.terasoluna.securelogin.app.common.validation.NotReused.message}";
+public @interface NotReusedPassword {
+	String message() default "{org.terasoluna.securelogin.app.common.validation.NotReusedPassword.message}";
 
 	Class<?>[] groups() default {};
 
-	String idPropertyName();
+	String usernamePropertyName();
 
 	String newPasswordPropertyName();
 
@@ -28,7 +28,7 @@ public @interface NotReused {
 	@Retention(RUNTIME)
 	@Documented
 	public @interface List {
-		NotReused[] value();
+		NotReusedPassword[] value();
 	}
 
 	Class<? extends Payload>[] payload() default {};

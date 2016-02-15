@@ -11,7 +11,7 @@
 		<id property="authenticationTimestamp" column="authentication_timestamp" />
 	</resultMap>
 
-	<insert id="insert" parameterType="FailedAuthentication">
+	<insert id="create" parameterType="FailedAuthentication">
     <![CDATA[
         INSERT INTO failed_authentication (
             username,
@@ -23,7 +23,7 @@
     ]]>
 	</insert>
 
-	<select id="findLatestEvents" resultMap="failedAuthenticationResultMap">
+	<select id="findLatest" resultMap="failedAuthenticationResultMap">
     <![CDATA[
         SELECT
             username,

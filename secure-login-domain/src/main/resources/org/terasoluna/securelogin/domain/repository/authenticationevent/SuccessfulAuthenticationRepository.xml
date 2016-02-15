@@ -11,7 +11,7 @@
 		<id property="authenticationTimestamp" column="authentication_timestamp" />
 	</resultMap>
 
-	<insert id="insert" parameterType="SuccessfulAuthentication">
+	<insert id="create" parameterType="SuccessfulAuthentication">
     <![CDATA[
         INSERT INTO successful_authentication (
             username,
@@ -23,7 +23,7 @@
     ]]>
 	</insert>
 
-	<select id="findLatestEvents" resultMap="successfulAuthenticationResultMap">
+	<select id="findLatest" resultMap="successfulAuthenticationResultMap">
     <![CDATA[
         SELECT
             username,

@@ -29,8 +29,8 @@ import static org.junit.Assert.assertThat;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PasswordLeakageMeasuresTest extends FunctionTestSupport {
 
-	@Value("${security.passwordLifeTime}")
-	int passwordLifeTime;
+	@Value("${security.passwordLifeTimeSeconds}")
+	int passwordLifeTimeSeconds;
 
 	@Inject
 	@Named("dataSource")
@@ -127,7 +127,7 @@ public class PasswordLeakageMeasuresTest extends FunctionTestSupport {
 
 		// confirm that the message to urge the user to change his password is
 		// shown
-		webDriverOperations.suspend(passwordLifeTime, TimeUnit.SECONDS);
+		webDriverOperations.suspend(passwordLifeTimeSeconds, TimeUnit.SECONDS);
 		page = ((LoginPage) page).loginSuccess("demo", "Foo1");
 		assertThat(((TopPage) page).getExpiredMessage(),
 				is("Your password has expired. Please change."));
@@ -181,7 +181,7 @@ public class PasswordLeakageMeasuresTest extends FunctionTestSupport {
 
 		// it's redirected to "Change Password" page because of expiration of
 		// the password
-		webDriverOperations.suspend(passwordLifeTime, TimeUnit.SECONDS);
+		webDriverOperations.suspend(passwordLifeTimeSeconds, TimeUnit.SECONDS);
 		page = ((LoginPage) page).loginSuccessIntercepted("admin", "Bar1");
 		assertTrue(webDriverOperations.getCurrentUrl().endsWith(
 				"/password?form"));

@@ -1,18 +1,21 @@
 package org.terasoluna.securelogin.domain.common.scheduled;
 
-import java.time.LocalDateTime;
-
 import javax.inject.Inject;
 
+import org.terasoluna.gfw.common.date.ClassicDateFactory;
 import org.terasoluna.securelogin.domain.service.passwordreissue.PasswordReissueService;
 
 public class UnnecessaryReissueInfoCleaner {
 
 	@Inject
+	ClassicDateFactory dateFactory;
+
+	@Inject
 	PasswordReissueService passwordReissueService;
 
 	public void cleanup() {
-		passwordReissueService.removeExpired(LocalDateTime.now());
+		passwordReissueService.removeExpired(dateFactory.newTimestamp()
+				.toLocalDateTime());
 	}
 
 }
