@@ -26,7 +26,7 @@ public class AccountAuthenticationFailureBadCredentialsEventListener{
 		failureEvents.setUsername(username);
 		failureEvents.setAuthenticationTimestamp(LocalDateTime.now());
 
-		authenticationEventSharedService.insertFailureEvent(failureEvents);
+		authenticationEventSharedService.authenticationFailure(failureEvents);
 	}
 
 }

@@ -26,7 +26,7 @@ public class AccountAuthenticationSuccessEventListener{
 		successEvent.setUsername(details.getUsername());
 		successEvent.setAuthenticationTimestamp(LocalDateTime.now());
 
-		authenticationEventSharedService.insertSuccessEvent(successEvent);
+		authenticationEventSharedService.authenticationSuccess(successEvent);
 	}
 
 }

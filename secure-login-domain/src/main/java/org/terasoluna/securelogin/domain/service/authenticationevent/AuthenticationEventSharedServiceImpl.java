@@ -37,12 +37,13 @@ public class AuthenticationEventSharedServiceImpl implements
 	}
 
 	@Override
-	public int insertSuccessEvent(SuccessfulAuthentication event) {
+	public int authenticationSuccess(SuccessfulAuthentication event) {
+		deleteFailureEventByUsername(event.getUsername());
 		return successAuthenticationRepository.insert(event);
 	}
 
 	@Override
-	public int insertFailureEvent(FailedAuthentication event) {
+	public int authenticationFailure(FailedAuthentication event) {
 		return failedAuthenticationRepository.insert(event);
 	}
 

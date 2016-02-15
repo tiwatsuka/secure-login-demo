@@ -13,9 +13,9 @@ public interface AuthenticationEventSharedService {
 	List<FailedAuthentication> findLatestFailureEvents(
 			String username, int count);
 
-	int insertSuccessEvent(SuccessfulAuthentication log);
+	int authenticationSuccess(SuccessfulAuthentication event);
 
-	int insertFailureEvent(FailedAuthentication log);
+	int authenticationFailure(FailedAuthentication event);
 
 	int deleteFailureEventByUsername(String username);
 }
