@@ -86,7 +86,7 @@
 	</bean>
 	<bean id="characterCharacteristicsRule" class="org.passay.CharacterCharacteristicsRule">
 		<property name="rules">
-			<list value-type="org.passay.CharacterRule">
+			<list>
 				<ref bean="upperCaseRule" />
 				<ref bean="lowerCaseRule" />
 				<ref bean="digitRule" />
@@ -104,7 +104,7 @@
 	<!-- Password Validator. -->
 	<bean id="characteristicPasswordValidator" class="org.passay.PasswordValidator">
 		<constructor-arg name="rules">
-			<list value-type="org.passay.Rule">
+			<list>
 				<ref bean="lengthRule" />
 				<ref bean="characterCharacteristicsRule" />
 				<ref bean="usernameRule" />
@@ -113,7 +113,7 @@
 	</bean>
 	<bean id="encodedPasswordHistoryValidator" class="org.passay.PasswordValidator">
 		<constructor-arg name="rules">
-			<list value-type="org.passay.Rule">
+			<list>
 				<ref bean="encodedPasswordHistoryRule" />
 			</list>
 		</constructor-arg>
@@ -121,7 +121,7 @@
 
 	<!-- Password Generator. -->
 	<bean id="passwordGenerator" class="org.passay.PasswordGenerator" />
-	<util:list id="passwordGenerationRules" value-type="org.passay.CharacterRule">
+	<util:list id="passwordGenerationRules">
 		<ref bean="upperCaseRule" />
 		<ref bean="lowerCaseRule" />
 		<ref bean="digitRule" />
@@ -133,7 +133,7 @@
 	<task:scheduler id="reissueInfoCleanupTaskScheduler" />
 	<task:scheduled-tasks scheduler="reissueInfoCleanupTaskScheduler">
 		<task:scheduled ref="expiredReissueInfoCleaner" method="cleanup"
-			fixed-delay="${security.reissueInfoCleanupDelay}" />
+			fixed-delay="${security.reissueInfoCleanupSeconds}" />
 	</task:scheduled-tasks>
 
 </beans>

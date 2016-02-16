@@ -8,7 +8,7 @@ public interface PasswordReissueService {
 
 	String createAndSendReissueInfo(String username);
 
-	PasswordReissueInfo findOne(String username, String token);
+	PasswordReissueInfo findOne(String token);
 
 	boolean resetPassword(String username, String token, String secret,
 			String rawPassword);

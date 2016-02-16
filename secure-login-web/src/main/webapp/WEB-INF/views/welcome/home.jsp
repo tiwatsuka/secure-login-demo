@@ -8,32 +8,32 @@
 </head>
 <body>
 	<div id="wrapper">
-		<span id="expiredMessage">
-			<t:messagesPanel />
+		<span id="expiredMessage"> <t:messagesPanel />
 		</span>
 		<h1>Hello world!</h1>
 
 		<p>Welcome ${f:h(account.firstName)} ${f:h(account.lastName)}</p>
 
-		<c:if test="${lastLoginDate != null}">
-			<p id="lastLogin">
-				Last login date is ${f:h(lastLoginDate)}.
-			</p>
+		<c:if test="${!empty lastLoginDate}">
+			<p id="lastLogin">Last login date is ${f:h(lastLoginDate)}.</p>
 		</c:if>
 
 		<form:form action="${f:h(pageContext.request.contextPath)}/logout">
 			<button id="logout">Logout</button>
 		</form:form>
 
-		<form:form action="${f:h(pageContext.request.contextPath)}/account" method="get">
-			<button id="info">Account Information</button>
-		</form:form>
+		<div>
+			<button id="info"
+				onClick="location.href='${f:h(pageContext.request.contextPath)}/account'">Account
+				Information</button>
+		</div>
 
 		<sec:authorize url="/unlock">
-			<form:form
-				action="${f:h(pageContext.request.contextPath)}/unlock?form" method="get">
-				<button id="unlock">Unlock Account</button>
-			</form:form>
+		<div>
+			<button id="unlock"
+				onClick="location.href='${f:h(pageContext.request.contextPath)}/unlock?form'">Unlock
+				Account</button>
+		</div>
 		</sec:authorize>
 	</div>
 </body>

@@ -36,16 +36,20 @@ public class PasswordChangeController {
 			@Validated PasswordChangeForm form, BindingResult bindingResult,
 			Model model) {
 
+		Account account = userDetails.getAccount();
 		if (bindingResult.hasErrors()) {
-			Account account = userDetails.getAccount();
 			model.addAttribute(account);
 			return "passwordchange/changeForm";
 		}
 
-		passwordService.updatePassword(form.getUsername(),
-				form.getNewPassword());
+		if (account.getUsername().equals(form.getUsername())) {
+			passwordService.updatePassword(form.getUsername(),
+					form.getNewPassword());
 
-		return "redirect:/password?complete";
+			return "redirect:/password?complete";
+		} else {
+			return "passwordchange/changeForm";
+		}
 	}
 
 	@RequestMapping(method = RequestMethod.GET, params = "complete")

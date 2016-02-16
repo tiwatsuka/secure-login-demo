@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.terasoluna.gfw.common.exception.BusinessException;
-import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
-
+import org.terasoluna.securelogin.domain.model.PasswordReissueInfo;
 import org.terasoluna.securelogin.domain.service.passwordreissue.PasswordReissueService;
 
 @Controller
@@ -36,14 +35,9 @@ public class PasswordReissueController {
 			return showCreateReissueInfoForm(form);
 		}
 
-		try {
-			String rawSecret = passwordReissueService.createAndSendReissueInfo(form.getUsername());
-			attributes.addFlashAttribute("secret", rawSecret);
-			return "redirect:/reissue/create?complete";
-		} catch (ResourceNotFoundException e) {
-			model.addAttribute(e.getResultMessages());
-			return showCreateReissueInfoForm(form);
-		}
+		String rawSecret = passwordReissueService.createAndSendReissueInfo(form.getUsername());
+		attributes.addFlashAttribute("secret", rawSecret);
+		return "redirect:/reissue/create?complete";
 	}
 
 	@RequestMapping(value = "create", params = "complete", method = RequestMethod.GET)
@@ -53,12 +47,11 @@ public class PasswordReissueController {
 
 	@RequestMapping(value = "resetpassword", params = "form")
 	public String showPasswordResetForm(PasswordResetForm form, Model model,
-			@RequestParam("username") String username,
 			@RequestParam("token") String token) {
 
-		passwordReissueService.findOne(username, token); // existence check
+		PasswordReissueInfo info = passwordReissueService.findOne(token); // existence check
 
-		form.setUsername(username);
+		form.setUsername(info.getUsername());
 		form.setToken(token);
 		model.addAttribute("passwordResetForm", form);
 		return "passwordreissue/passwordResetForm";
@@ -68,8 +61,7 @@ public class PasswordReissueController {
 	public String resetPassword(@Validated PasswordResetForm form,
 			BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
-			return showPasswordResetForm(form, model, form.getUsername(),
-					form.getToken());
+			return showPasswordResetForm(form, model, form.getToken());
 		}
 
 		try {
@@ -78,8 +70,7 @@ public class PasswordReissueController {
 			return "redirect:/reissue/resetpassword?complete";
 		} catch (BusinessException e) {
 			model.addAttribute(e.getResultMessages());
-			return showPasswordResetForm(form, model, form.getUsername(),
-					form.getToken());
+			return showPasswordResetForm(form, model, form.getToken());
 		}
 	}
 

@@ -9,6 +9,8 @@ public interface AccountSharedService {
 
 	LocalDateTime getLastLoginDate(String username);
 
+	boolean exists(String username);
+	
 	boolean isLocked(String username);
 
 	boolean isInitialPassword(String username);

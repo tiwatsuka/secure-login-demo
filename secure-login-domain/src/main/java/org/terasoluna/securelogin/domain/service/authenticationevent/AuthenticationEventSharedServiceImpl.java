@@ -6,10 +6,12 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.terasoluna.gfw.common.date.ClassicDateFactory;
 import org.terasoluna.securelogin.domain.model.FailedAuthentication;
 import org.terasoluna.securelogin.domain.model.SuccessfulAuthentication;
 import org.terasoluna.securelogin.domain.repository.authenticationevent.FailedAuthenticationRepository;
 import org.terasoluna.securelogin.domain.repository.authenticationevent.SuccessfulAuthenticationRepository;
+import org.terasoluna.securelogin.domain.service.account.AccountSharedService;
 
 @Service
 @Transactional
@@ -17,10 +19,16 @@ public class AuthenticationEventSharedServiceImpl implements
 		AuthenticationEventSharedService {
 
 	@Inject
+	ClassicDateFactory dateFactory;
+	
+	@Inject
 	FailedAuthenticationRepository failedAuthenticationRepository;
 
 	@Inject
 	SuccessfulAuthenticationRepository successAuthenticationRepository;
+	
+	@Inject
+	AccountSharedService accountSharedService;
 
 	@Transactional(readOnly = true)
 	@Override
@@ -37,14 +45,25 @@ public class AuthenticationEventSharedServiceImpl implements
 	}
 
 	@Override
-	public int authenticationSuccess(SuccessfulAuthentication event) {
-		deleteFailureEventByUsername(event.getUsername());
-		return successAuthenticationRepository.create(event);
+	public void authenticationSuccess(String username) {
+		SuccessfulAuthentication successEvent = new SuccessfulAuthentication();
+		successEvent.setUsername(username);
+		successEvent.setAuthenticationTimestamp(dateFactory.newTimestamp().toLocalDateTime());
+
+	    successAuthenticationRepository.create(successEvent);
+		deleteFailureEventByUsername(username);
 	}
 
 	@Override
-	public int authenticationFailure(FailedAuthentication event) {
-		return failedAuthenticationRepository.create(event);
+	public void authenticationFailure(String username) {
+		FailedAuthentication failureEvents = new FailedAuthentication();
+		failureEvents.setUsername(username);
+		failureEvents.setAuthenticationTimestamp(dateFactory.newTimestamp()
+				.toLocalDateTime());
+		
+		if(accountSharedService.exists(username)){
+			failedAuthenticationRepository.create(failureEvents);
+		}
 	}
 
 	@Override

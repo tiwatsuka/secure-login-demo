@@ -65,6 +65,18 @@ public class AccountSharedServiceImpl implements AccountSharedService {
 
 	@Transactional(readOnly = true)
 	@Override
+	public boolean exists(String username) {
+		Account account = accountRepository.findOne(username);
+
+		if (account == null) {
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
 	public boolean isLocked(String username) {
 		List<FailedAuthentication> failureEvents = authenticationEventSharedService
 				.findLatestFailureEvents(username, lockingThreshold);

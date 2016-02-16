@@ -165,7 +165,7 @@ public class PasswordReissueTest extends FunctionTestSupport {
 					"Hoge2", "Hoge2");
 		}
 		assertThat(webDriverOperations.getTitle(),
-				is("Bussiness Error!"));
+				is("Business Error!"));
 	}
 
 	/**

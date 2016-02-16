@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 
 import org.passay.CharacterRule;
@@ -52,7 +53,7 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	@Inject
 	PasswordGenerator passwordGenerator;
 
-	@Inject
+	@Resource(name="passwordGenerationRules")
 	List<CharacterRule> passwordGenerationRules;
 
 	@Value("${security.tokenLifeTimeSeconds}")
@@ -72,10 +73,15 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 
 	@Override
 	public String createAndSendReissueInfo(String username) {
-		Account account = accountSharedService.findOne(username);
 		
 		String rowSecret = passwordGenerator.generatePassword(10, passwordGenerationRules);
 
+		if(!accountSharedService.exists(username)){
+			return rowSecret; 			
+		}
+		
+		Account account= accountSharedService.findOne(username);
+		
 		String token = UUID.randomUUID().toString();
 
 		LocalDateTime expiryDate = dateFactory.newTimestamp().toLocalDateTime()
@@ -90,31 +96,26 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 		passwordReissueInfoRepository.create(info);
 
 		String passwordResetUrl = protocol + "://" + hostAndPort
-				+ contextPath + "/reissue/resetpassword/?form&username="
-				+ info.getUsername() + "&token=" + info.getToken();
+				+ contextPath + "/reissue/resetpassword/?form&token="
+				+ info.getToken();
 
 		mailSharedService.send(account.getEmail(), passwordResetUrl);
 
-		
 		return rowSecret;
 
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public PasswordReissueInfo findOne(String username, String token) {
+	public PasswordReissueInfo findOne(String token) {
 		PasswordReissueInfo info = passwordReissueInfoRepository.findOne(token);
 
 		if (info == null) {
 			throw new ResourceNotFoundException(ResultMessages.error().add(
 					MessageKeys.E_SL_PR_5002, token));
 		}
-		if (!info.getUsername().equals(username)) {
-			throw new BusinessException(ResultMessages.error().add(
-					MessageKeys.E_SL_PR_5001));
-		}
 
-		if (info.getExpiryDate().isBefore(dateFactory.newTimestamp().toLocalDateTime())) {
+		if (dateFactory.newTimestamp().toLocalDateTime().isAfter(info.getExpiryDate())) {
 			throw new BusinessException(ResultMessages.error().add(
 					MessageKeys.E_SL_PR_2001));
 		}
@@ -132,14 +133,14 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	@Override
 	public boolean resetPassword(String username, String token, String secret,
 			String rawPassword) {
-		PasswordReissueInfo info = this.findOne(username, token);
+		PasswordReissueInfo info = this.findOne(token);
 		if (!passwordEncoder.matches(secret, info.getSecret())) {
 			passwordReissueFailureSharedService.resetFailure(username, token);
 			throw new BusinessException(ResultMessages.error().add(
 					MessageKeys.E_SL_PR_5003));
 		}
-		passwordReissueInfoRepository.delete(token);
 		failedPasswordReissueRepository.deleteByToken(token);
+		passwordReissueInfoRepository.delete(token);
 
 		return accountSharedService.updatePassword(username, rawPassword);
 
