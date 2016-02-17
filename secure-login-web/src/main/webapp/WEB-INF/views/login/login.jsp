@@ -16,7 +16,7 @@
 			</span>
 		</c:if>
 		
-		<form:form action="${f:h(pageContext.request.contextPath)}/authenticate">
+		<form:form action="${f:h(pageContext.request.contextPath)}/login">
 			<table>
 				<tr>
 					<td><label for="username">User:</label></td>

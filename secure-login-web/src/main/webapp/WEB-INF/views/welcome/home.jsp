@@ -18,23 +18,23 @@
 			<p id="lastLogin">Last login date is ${f:h(lastLoginDate)}.</p>
 		</c:if>
 
-		<form:form action="${f:h(pageContext.request.contextPath)}/logout">
-			<button id="logout">Logout</button>
-		</form:form>
-
 		<div>
-			<button id="info"
-				onClick="location.href='${f:h(pageContext.request.contextPath)}/account'">Account
-				Information</button>
+			<a id="info" href="${f:h(pageContext.request.contextPath)}/account" />
+				Account Information
+			</a>
 		</div>
 
 		<sec:authorize url="/unlock">
 		<div>
-			<button id="unlock"
-				onClick="location.href='${f:h(pageContext.request.contextPath)}/unlock?form'">Unlock
-				Account</button>
+			<a id="unlock" href="${f:h(pageContext.request.contextPath)}/unlock?form">
+				Unlock Account
+			</a>
 		</div>
 		</sec:authorize>
+		
+		<form:form action="${f:h(pageContext.request.contextPath)}/logout">
+			<button id="logout">Logout</button>
+		</form:form>
 	</div>
 </body>
 </html>

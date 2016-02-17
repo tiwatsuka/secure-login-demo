@@ -13,7 +13,7 @@
 		<sec:session-management />
 		<sec:form-login login-page="/login"
 			authentication-failure-url="/login?error=true"
-			login-processing-url="/authenticate" username-parameter="username"
+			login-processing-url="/login" username-parameter="username"
 			password-parameter="password" />
 		<sec:logout logout-url="/logout" success-handler-ref="logoutSuccessHandler"
 			delete-cookies="JSESSIONID" />

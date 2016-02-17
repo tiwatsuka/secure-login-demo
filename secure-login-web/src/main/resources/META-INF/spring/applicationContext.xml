@@ -62,25 +62,25 @@
 	</bean>
 	<bean id="upperCaseRule" class="org.passay.CharacterRule">
 		<constructor-arg name="data">
-			<value type="org.passay.EnglishCharacterData">UpperCase</value>
+			<util:constant static-field="org.passay.EnglishCharacterData.UpperCase" />
 		</constructor-arg>
 		<constructor-arg name="num" value="1" />
 	</bean>
 	<bean id="lowerCaseRule" class="org.passay.CharacterRule">
 		<constructor-arg name="data">
-			<value type="org.passay.EnglishCharacterData">LowerCase</value>
+			<util:constant static-field="org.passay.EnglishCharacterData.LowerCase" />
 		</constructor-arg>
 		<constructor-arg name="num" value="1" />
 	</bean>
 	<bean id="digitRule" class="org.passay.CharacterRule">
 		<constructor-arg name="data">
-			<value type="org.passay.EnglishCharacterData">Digit</value>
+			<util:constant static-field="org.passay.EnglishCharacterData.Digit" />
 		</constructor-arg>
 		<constructor-arg name="num" value="1" />
 	</bean>
 	<bean id="specialCharacterRule" class="org.passay.CharacterRule">
 		<constructor-arg name="data">
-			<value type="org.passay.EnglishCharacterData">Special</value>
+			<util:constant static-field="org.passay.EnglishCharacterData.Special" />
 		</constructor-arg>
 		<constructor-arg name="num" value="1" />
 	</bean>

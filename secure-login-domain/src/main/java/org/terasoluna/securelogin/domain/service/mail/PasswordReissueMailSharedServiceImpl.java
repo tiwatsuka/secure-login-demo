@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -25,6 +26,7 @@ public class PasswordReissueMailSharedServiceImpl implements PasswordReissueMail
 	JavaMailSender mailSender;
 
 	@Inject
+	@Named("passwordReissueMessage")
 	SimpleMailMessage templateMessage;
 
 	@Inject

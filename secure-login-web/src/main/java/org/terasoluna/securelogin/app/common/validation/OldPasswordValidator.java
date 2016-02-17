@@ -43,8 +43,6 @@ public class OldPasswordValidator implements
 		Account account = accountSharedService.findOne(username);
 		String currentPassword = account.getPassword();
 
-		context.disableDefaultConstraintViolation();
-
 		return checkOldPasswordMacheWithCurrentPassword(oldPassword,
 				currentPassword, context);
 	}
@@ -55,6 +53,7 @@ public class OldPasswordValidator implements
 		if (passwordEncoder.matches(oldPassword, currentPassword)) {
 			return true;
 		} else {
+			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(message)
 					.addPropertyNode(oldPasswordPropertyName).addConstraintViolation();
 			return false;

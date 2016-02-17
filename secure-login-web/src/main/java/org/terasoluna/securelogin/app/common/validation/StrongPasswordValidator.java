@@ -40,11 +40,11 @@ public class StrongPasswordValidator implements
 		RuleResult result = characteristicPasswordValidator
 				.validate(PasswordData.newInstance(newPassword, username, null));
 
-		context.disableDefaultConstraintViolation();
-
 		if (result.isValid()) {
 			return true;
 		} else {
+			context.disableDefaultConstraintViolation();
+
 			for (String message : characteristicPasswordValidator
 					.getMessages(result)) {
 				context.buildConstraintViolationWithTemplate(message)

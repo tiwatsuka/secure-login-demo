@@ -56,12 +56,12 @@ public class AuthenticationEventSharedServiceImpl implements
 
 	@Override
 	public void authenticationFailure(String username) {
-		FailedAuthentication failureEvents = new FailedAuthentication();
-		failureEvents.setUsername(username);
-		failureEvents.setAuthenticationTimestamp(dateFactory.newTimestamp()
-				.toLocalDateTime());
-		
 		if(accountSharedService.exists(username)){
+			FailedAuthentication failureEvents = new FailedAuthentication();
+			failureEvents.setUsername(username);
+			failureEvents.setAuthenticationTimestamp(dateFactory.newTimestamp()
+					.toLocalDateTime());
+		
 			failedAuthenticationRepository.create(failureEvents);
 		}
 	}

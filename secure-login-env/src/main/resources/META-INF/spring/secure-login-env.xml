@@ -25,7 +25,11 @@
 	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
 		<constructor-arg index="0" ref="realDataSource" />
 	</bean>
-
+	<jdbc:initialize-database ignore-failures="ALL" data-source="dataSource">
+		<jdbc:script encoding="UTF-8" location="classpath:/database/${database}-schema.sql"/>
+		<jdbc:script encoding="UTF-8" location="classpath:/database/${database}-dataload.sql"/>
+	</jdbc:initialize-database>
+	
 	<!-- REMOVE THIS LINE IF YOU USE JPA <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"> 
 		<property name="entityManagerFactory" ref="entityManagerFactory" /> </bean> 
 		REMOVE THIS LINE IF YOU USE JPA -->
@@ -39,7 +43,7 @@
 		<property name="port" value="${mail.port}" />
 	</bean>
 
-	<bean id="tamplateMessage" class="org.springframework.mail.SimpleMailMessage">
+	<bean id="passwordReissueMessage" class="org.springframework.mail.SimpleMailMessage">
 		<property name="from" value="${mail.from}" />
 		<property name="subject" value="${mail.subject}" />
 	</bean>

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.UriComponentsBuilder;
 import org.terasoluna.gfw.common.date.ClassicDateFactory;
 import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
@@ -53,14 +54,17 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 	@Inject
 	PasswordGenerator passwordGenerator;
 
-	@Resource(name="passwordGenerationRules")
+	@Resource(name = "passwordGenerationRules")
 	List<CharacterRule> passwordGenerationRules;
 
 	@Value("${security.tokenLifeTimeSeconds}")
 	int tokenLifeTimeSeconds;
 
-	@Value("${app.hostAndPort}")
-	String hostAndPort;
+	@Value("${app.host}")
+	String host;
+
+	@Value("${app.port}")
+	String port;
 
 	@Value("${app.contextPath}")
 	String contextPath;
@@ -73,15 +77,16 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 
 	@Override
 	public String createAndSendReissueInfo(String username) {
-		
-		String rowSecret = passwordGenerator.generatePassword(10, passwordGenerationRules);
 
-		if(!accountSharedService.exists(username)){
-			return rowSecret; 			
+		String rowSecret = passwordGenerator.generatePassword(10,
+				passwordGenerationRules);
+
+		if (!accountSharedService.exists(username)) {
+			return rowSecret;
 		}
-		
-		Account account= accountSharedService.findOne(username);
-		
+
+		Account account = accountSharedService.findOne(username);
+
 		String token = UUID.randomUUID().toString();
 
 		LocalDateTime expiryDate = dateFactory.newTimestamp().toLocalDateTime()
@@ -95,9 +100,11 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 
 		passwordReissueInfoRepository.create(info);
 
-		String passwordResetUrl = protocol + "://" + hostAndPort
-				+ contextPath + "/reissue/resetpassword/?form&token="
-				+ info.getToken();
+		UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();
+		uriBuilder.scheme(protocol).host(host).port(port).path(contextPath)
+				.pathSegment("reissue").pathSegment("resetpassword")
+				.queryParam("form").queryParam("token", info.getToken());
+		String passwordResetUrl = uriBuilder.build().toString();
 
 		mailSharedService.send(account.getEmail(), passwordResetUrl);
 
@@ -115,16 +122,16 @@ public class PasswordReissueServiceImpl implements PasswordReissueService {
 					MessageKeys.E_SL_PR_5002, token));
 		}
 
-		if (dateFactory.newTimestamp().toLocalDateTime().isAfter(info.getExpiryDate())) {
+		if (dateFactory.newTimestamp().toLocalDateTime()
+				.isAfter(info.getExpiryDate())) {
 			throw new BusinessException(ResultMessages.error().add(
 					MessageKeys.E_SL_PR_2001));
 		}
-		
-		int count = failedPasswordReissueRepository
-				.countByToken(token);
+
+		int count = failedPasswordReissueRepository.countByToken(token);
 		if (count >= tokenValidityThreshold) {
 			throw new BusinessException(ResultMessages.error().add(
-					MessageKeys.E_SL_PR_5001));
+					MessageKeys.E_SL_PR_5004));
 		}
 
 		return info;

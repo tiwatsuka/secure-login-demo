@@ -28,7 +28,7 @@ public class MessageKeys {
 	public static final String E_SL_PR_5002 = "e.sl.pr.5002";
 	/** e.sl.pr.5003=Invalid Secret. */
 	public static final String E_SL_PR_5003 = "e.sl.pr.5003";
-	/** e.sl.pr.5003=Exceed max number of attempt. */
+	/** e.sl.pr.5003=Max number of attempts was exceeded. */
 	public static final String E_SL_PR_5004 = "e.sl.pr.5004";
 	/** e.sl.fa.5001=Given account is not found! username : {0}. */
 	public static final String E_SL_FA_5001 = "e.sl.fa.5001";

@@ -79,8 +79,6 @@ public class NotReusedPasswordValidator implements
 			result = checkHistoricalPassword(username, newPassword, context);
 		}
 
-		context.disableDefaultConstraintViolation();
-
 		return result;
 	}
 
@@ -90,6 +88,7 @@ public class NotReusedPasswordValidator implements
 		if (!passwordEncoder.matches(newPassword, currentPassword)) {
 			return true;
 		} else {
+			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(message)
 					.addPropertyNode(newPasswordPropertyName)
 					.addConstraintViolation();
@@ -122,6 +121,7 @@ public class NotReusedPasswordValidator implements
 		if (result.isValid()) {
 			return true;
 		} else {
+			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(
 					encodedPasswordHistoryValidator.getMessages(result).get(0))
 					.addPropertyNode(newPasswordPropertyName)
