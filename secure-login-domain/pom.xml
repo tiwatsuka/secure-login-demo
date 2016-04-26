@@ -11,6 +11,10 @@
     </parent>
 
     <dependencies>
+    	<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
         <!-- == Begin TERASOLUNA == -->
         <dependency>
             <groupId>org.terasoluna.gfw</groupId>
@@ -42,11 +46,11 @@
         <!-- == End TERASOLUNA == -->
 
         <!-- == Begin Database == -->
-<!--         <dependency> -->
-<!--             <groupId>org.postgresql</groupId> -->
-<!--             <artifactId>postgresql</artifactId> -->
-<!--             <scope>provided</scope> -->
-<!--         </dependency> -->
+         <dependency>
+             <groupId>org.postgresql</groupId>
+             <artifactId>postgresql</artifactId>
+             <scope>provided</scope>
+         </dependency>
 <!--         <dependency> -->
 <!--             <groupId>com.oracle</groupId> -->
 <!--             <artifactId>ojdbc7</artifactId> -->
@@ -78,15 +82,36 @@
         <!-- == End Unit Test == -->
 
         <!-- == Begin Coding Support == -->
-        <!--
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-        -->
         <!-- == End Coding Support == -->
 
+		<!-- == Begin Password Utility == -->
+		<dependency>
+			<groupId>org.passay</groupId>
+			<artifactId>passay</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<!-- == End Password Utility == -->
+		
+		<!-- == Begin Sending Mail == -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+		</dependency>
+		<!-- == End Sending Mail == -->
+		
+		<!-- == Begin Mail Sending/Receiving Test == -->
+		<dependency>
+			<groupId>com.icegreen</groupId>
+			<artifactId>greenmail-spring</artifactId>
+			<version>1.4.1</version>
+		</dependency>
+		<!-- == End Mail Sending/Receiving Test == -->
+		
     </dependencies>
 
 </project>
