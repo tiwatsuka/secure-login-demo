@@ -9,6 +9,7 @@
 <body>
 	<div id="wrapper">
 		<h1>Account Information</h1>
+		<img src="${f:h(pageContext.request.contextPath)}/account/image" width="100" height="100"/>
 		<table>
 			<tr>
 				<th>Username</th>
@@ -21,6 +22,14 @@
 			<tr>
 				<th>Last name</th>
 				<td>${f:h(account.lastName)}</td>
+			</tr>
+			<tr>
+				<th>E-Mail</th>
+				<td>${f:h(account.email)}</td>
+			</tr>
+			<tr>
+				<th>URL</th>
+				<td>${f:link(account.url)}</td>
 			</tr>
 		</table>
 

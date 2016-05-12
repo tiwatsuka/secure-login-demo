@@ -18,6 +18,7 @@
 		<sec:logout logout-url="/logout" success-handler-ref="logoutSuccessHandler"
 			delete-cookies="JSESSIONID" />
 		<sec:intercept-url pattern="/login" access="permitAll" />
+		<sec:intercept-url pattern="/account/create" access="permitAll" />
 		<sec:intercept-url pattern="/reissue/**" access="permitAll" />
 		<sec:intercept-url pattern="/api/receivedmail" access="permitAll" />
 		<sec:intercept-url pattern="/unlock/**" access="hasRole('ADMIN')" />

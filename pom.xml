@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.terasoluna.gfw</groupId>
         <artifactId>terasoluna-gfw-parent</artifactId>
-        <version>5.1.0-SNAPSHOT</version>
+        <version>5.1.0.RELEASE</version>
     </parent>
 
     <name>TERASOLUNA Server Framework for Java (5.x) Web Blank Multi Project (MyBatis3)</name>
@@ -98,17 +98,17 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>secure-login-domain</artifactId>
-                <version>5.1.0-SNAPSHOT</version>
+                <version>5.1.0.RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>secure-login-web</artifactId>
-                <version>5.1.0-SNAPSHOT</version>
+                <version>5.1.0.RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>secure-login-env</artifactId>
-                <version>5.1.0-SNAPSHOT</version>
+                <version>5.1.0.RELEASE</version>
             </dependency>
 
             <!-- == Begin Database == -->

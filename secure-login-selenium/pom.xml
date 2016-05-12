@@ -4,7 +4,7 @@
     <artifactId>secure-login-selenium</artifactId>
     <packaging>jar</packaging>
     <parent>
-        <version>5.1.0-SNAPSHOT</version>
+        <version>5.1.0.RELEASE</version>
         <artifactId>secure-login</artifactId>
         <groupId>org.terasoluna.app</groupId>
         <relativePath>../pom.xml</relativePath>

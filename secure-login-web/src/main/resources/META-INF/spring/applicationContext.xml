@@ -38,6 +38,7 @@
 		<property name="exceptionMappings">
 			<map>
 				<entry key="ResourceNotFoundException" value="e.sl.fw.5001" />
+				<entry key="MultipartException" value="e.sl.fw.6001" />
 				<entry key="InvalidTransactionTokenException" value="e.sl.fw.7001" />
 				<entry key="BusinessException" value="e.sl.fw.8001" />
 				<entry key=".DataAccessException" value="e.sl.fw.9002" />
@@ -54,6 +55,10 @@
 	<!-- Filter. -->
 	<bean id="exceptionLoggingFilter" class="org.terasoluna.gfw.web.exception.ExceptionLoggingFilter">
 		<property name="exceptionLogger" ref="exceptionLogger" />
+	</bean>
+	<bean id="inputValidationFilter" class="org.terasoluna.securelogin.app.common.filter.InputValidationFilter">
+		<constructor-arg index="0" value="${app.security.prohibitedChars}"/>
+		<constructor-arg index="1" value="${app.security.prohibitedCharsForFileName}"/>
 	</bean>
 
 	<!-- Password Rules. -->
@@ -133,7 +138,16 @@
 	<task:scheduler id="reissueInfoCleanupTaskScheduler" />
 	<task:scheduled-tasks scheduler="reissueInfoCleanupTaskScheduler">
 		<task:scheduled ref="expiredReissueInfoCleaner" method="cleanup"
-			fixed-delay="${security.reissueInfoCleanupSeconds}" />
+			fixed-delay="${security.reissueInfoCleanupMilliSeconds}" />
 	</task:scheduled-tasks>
+	
+	<bean id="tempFileCleaner"
+		class="org.terasoluna.securelogin.domain.common.scheduled.TempFileCleaner" />
+	<task:scheduler id="tempFileTaskScheduler" />
+	<task:scheduled-tasks scheduler="tempFileTaskScheduler">
+		<task:scheduled ref="tempFileCleaner" method="cleanup"
+			fixed-delay="${security.tempFileCleanupMilliSeconds}" />
+	</task:scheduled-tasks>
+	
 
 </beans>

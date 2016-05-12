@@ -10,4 +10,8 @@ public interface AccountRepository {
 	boolean updatePassword(@Param("username") String username,
 			@Param("password") String password);
 
+	boolean create(Account account);
+	
+	boolean setRoles(Account account);
+	
 }

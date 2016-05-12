@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="org.terasoluna.securelogin.domain.repository.userimage.UserImageRepository">
+
+	<resultMap id="UserImageResultMap" type="UserImage">
+		<id property="username" column="username" />
+		<id property="body" column="body" />
+		<id property="extension" column="extension" />
+	</resultMap>
+
+	<select id="findOne" resultMap="UserImageResultMap">
+    <![CDATA[
+        SELECT
+        	username,
+            body,
+            extension
+        FROM
+            user_image
+        WHERE
+            username = #{username}
+    ]]>
+	</select>
+
+	<insert id="create" parameterType="UserImage">
+    <![CDATA[
+        INSERT INTO user_image (
+            username,
+            body,
+            extension
+        ) VALUES (
+	        #{username},
+	        #{body},
+	        #{extension}
+        )
+    ]]>
+	</insert>
+
+</mapper>

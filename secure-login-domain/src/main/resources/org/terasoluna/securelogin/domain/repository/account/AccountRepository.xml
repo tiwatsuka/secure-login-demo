@@ -11,6 +11,7 @@
 		<result property="firstName" column="first_name" />
 		<result property="lastName" column="last_name" />
 		<result property="email" column="email" />
+		<result property="url" column="url" />
 		<collection property="roles" ofType="Role">
 			<result property="role" column="role" />
 		</collection>
@@ -24,6 +25,7 @@
 			a.first_name,
 			a.last_name,
 			a.email,
+			a.url,
 			r.role
 		FROM
 			account a
@@ -44,5 +46,38 @@
 			username = #{username}
 	]]>
 	</update>
+
+	<insert id="create" parameterType="Account">
+    <![CDATA[
+        INSERT INTO account (
+            username,
+            password,
+            first_name,
+            last_name,
+            email,
+            url
+        ) VALUES (
+	        #{username},
+	        #{password},
+	        #{firstName},
+            #{lastName},
+            #{email},
+            #{url}
+        )
+    ]]>
+	</insert>
+
+	<insert id="setRoles" parameterType="Account">
+    	INSERT INTO role (
+    		username,
+    		role
+    	) VALUES
+    	<foreach collection="roles" item="elem" separator=",">
+    	(
+    		#{username},
+    		#{elem.roleValue}
+    	)
+    	</foreach>
+	</insert>
 
 </mapper>
